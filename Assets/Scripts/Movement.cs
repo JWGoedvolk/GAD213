@@ -11,16 +11,17 @@ public class Movement : MonoBehaviour
     [Header("Player Move Speed")]
     [SerializeField] private Rigidbody2D body;
     [SerializeField] private bool isThrusting = false;
-    [SerializeField] private FloatVarScriptable speed;
+    [SerializeField] private FloatVarScriptable speed; // This is the speed we are trying to reach when thrusting
     [SerializeField] private FloatVarScriptable maxSpeed;
     [SerializeField] private float curSpeed = 0f;
     [SerializeField] private float speedTimeStepFactor = 1f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Player Turning Speed")]
+    [SerializeField] private FloatVarScriptable turnSpeed; // This is what we are trying to reach
+    [SerializeField] private float curTurnSpeed = 0f;
+    [SerializeField] private float maxTurnSpeed = 1f;
+    [SerializeField] private float turnSpeedStepFactor = 1f;
+    [SerializeField] private float turnDragFactor = 1f;
 
     // Update is called once per frame
     void Update()
@@ -30,6 +31,24 @@ public class Movement : MonoBehaviour
             isThrusting = true;
             curSpeed = Mathf.Lerp(curSpeed, speed.Value, Time.deltaTime * speedTimeStepFactor);
         }
+        else
+        {
+            isThrusting = false;
+            curSpeed = Mathf.MoveTowards(curSpeed, 0f, Time.deltaTime * 2 * speedTimeStepFactor);
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            curTurnSpeed = Mathf.MoveTowards(curTurnSpeed, turnSpeed.Value, Time.deltaTime * turnSpeedStepFactor);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            curTurnSpeed = Mathf.MoveTowards(curTurnSpeed, -turnSpeed.Value, Time.deltaTime * turnSpeedStepFactor);
+        }
+        else
+        {
+            curTurnSpeed = Mathf.MoveTowards(curTurnSpeed, 0f, Time.deltaTime * turnDragFactor);
+        }
     }
 
     private void FixedUpdate()
@@ -38,6 +57,8 @@ public class Movement : MonoBehaviour
         {
             body.velocity = transform.up * curSpeed;
         }
+
+        transform.Rotate(Vector3.forward, curTurnSpeed);
 
         body.velocity = Vector2.ClampMagnitude(body.velocity, maxSpeed.Value); // Limit our speed
     }
