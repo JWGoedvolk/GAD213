@@ -248,8 +248,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 1
-  m_AngularDrag: 0.05
+  m_LinearDrag: 0.7
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -352,6 +352,7 @@ MonoBehaviour:
   curTurnSpeed: 0
   maxTurnSpeed: 5
   turnSpeedStepFactor: 1
+  turnDragFactor: 1.5
 --- !u!114 &1208675203
 MonoBehaviour:
   m_ObjectHideFlags: 0

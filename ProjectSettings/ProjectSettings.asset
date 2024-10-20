@@ -722,7 +722,7 @@ PlayerSettings:
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: GAD213
-  metroPackageVersion: 
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -730,7 +730,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: GAD213
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: GAD213
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
