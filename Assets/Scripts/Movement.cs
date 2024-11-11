@@ -23,17 +23,24 @@ public class Movement : MonoBehaviour
     [SerializeField] private float turnSpeedStepFactor = 1f;
     [SerializeField] private float turnDragFactor = 1f;
 
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
+
     // Update is called once per frame
     void Update()
     {
         if(Input.GetKey(KeyCode.Space))
         {
             isThrusting = true;
+            animator.SetBool("IsMoving", isThrusting);
+
             curSpeed = Mathf.Lerp(curSpeed, speed.Value, Time.deltaTime * speedTimeStepFactor);
         }
         else
         {
             isThrusting = false;
+            animator.SetBool("IsMoving", isThrusting);
+
             curSpeed = Mathf.MoveTowards(curSpeed, 0f, Time.deltaTime * 2 * speedTimeStepFactor);
         }
 
@@ -53,9 +60,10 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         if (isThrusting) // Move us forward
         {
-            body.velocity = transform.up * curSpeed;
+            body.AddForce(transform.up * curSpeed);
         }
 
         transform.Rotate(Vector3.forward, curTurnSpeed);
