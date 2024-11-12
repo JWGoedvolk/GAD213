@@ -10,6 +10,8 @@ public class UpgradeButton : MonoBehaviour
     public FloatVarScriptable Speed;
     public FloatVarScriptable MaxSpeed;
     public FloatVarScriptable TurnSpeed;
+    public WeaponSystem weaponSystem;
+
     public Button button;
     public TMP_Text text;
     public int UpgradeID = 0;
@@ -19,13 +21,13 @@ public class UpgradeButton : MonoBehaviour
     private void OnEnable()
     {
         //UpgradeID = Random.Range(1, maxUpgradeID);
-        button.onClick.AddListener(Upgrade);
+        //button.onClick.AddListener(Upgrade);
         text.text = upgradeNames[UpgradeID];
     }
 
     private void OnDisable()
     {
-        button.onClick.RemoveListener(Upgrade);
+        //button.onClick.RemoveListener(Upgrade);
     }
 
     public void Upgrade()
@@ -34,9 +36,9 @@ public class UpgradeButton : MonoBehaviour
         {
             case 0: break;
             case 1:
-                RB.mass += 0.5f; break;
+                RB.mass += 0.1f; break;
             case 2:
-                RB.mass -= 0.5f; break;
+                RB.mass -= 0.1f; break;
             case 3:
                 RB.drag -= 0.1f; break;
             case 4:
@@ -53,6 +55,18 @@ public class UpgradeButton : MonoBehaviour
                 TurnSpeed.Value += 0.1f; break;
             case 10:
                 TurnSpeed.Value -= 0.1f; break;
+            case 11:
+                weaponSystem.fireRateModifier += 0.1f; break;
+            case 12:
+                weaponSystem.fireRateModifier -= 0.1f; break;
+            case 13:
+                weaponSystem.bulletSpeedModifier += 0.1f; break;
+            case 14:
+                weaponSystem.bulletSpeedModifier -= 0.1f; break;
+            case 15:
+                weaponSystem.bulletSizeModifier += 0.1f; break;
+            case 16:
+                weaponSystem.bulletSizeModifier -= 0.1f; break;
             default:
                 break;
         }

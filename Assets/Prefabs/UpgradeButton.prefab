@@ -134,17 +134,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
+      - m_Target: {fileID: 6376385935350560412}
+        m_TargetAssemblyTypeName: UpgradeButton, Assembly-CSharp
+        m_MethodName: Upgrade
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &6376385935350560412
 MonoBehaviour:
@@ -161,6 +161,8 @@ MonoBehaviour:
   RB: {fileID: 0}
   Speed: {fileID: 11400000, guid: 23da5ae8e7dca834a922df070a0011f0, type: 2}
   MaxSpeed: {fileID: 11400000, guid: aa261c93f7dea6449af9236fac1ac772, type: 2}
+  TurnSpeed: {fileID: 11400000, guid: 3e4bcf2fc87089d48a156c657bf2204c, type: 2}
+  weaponSystem: {fileID: 0}
   button: {fileID: 1931172820676901475}
   text: {fileID: 1776860188674075674}
   UpgradeID: 0
@@ -175,6 +177,14 @@ MonoBehaviour:
   - Speed Down
   - Max Speed Up
   - Max Speed Down
+  - Turn Speed Up
+  - Turn Speed Down
+  - Firerate Up
+  - Firerate Down
+  - Bullet Speed Up
+  - Bullet Speed Down
+  - Bullet Size Up
+  - Bullet Size Down
 --- !u!1 &9139887160640806313
 GameObject:
   m_ObjectHideFlags: 0

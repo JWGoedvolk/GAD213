@@ -56,6 +56,11 @@ public class Movement : MonoBehaviour
         {
             curTurnSpeed = Mathf.MoveTowards(curTurnSpeed, 0f, Time.deltaTime * turnDragFactor);
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     private void FixedUpdate()
