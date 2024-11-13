@@ -1903,6 +1903,7 @@ GameObject:
   - component: {fileID: 1208675205}
   - component: {fileID: 1208675206}
   - component: {fileID: 1208675207}
+  - component: {fileID: 1208675208}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2167,6 +2168,19 @@ MonoBehaviour:
   fireKey: 107
   speed: 0
   player: {fileID: 1208675199}
+--- !u!114 &1208675208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208675198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b720179b40f92764591bef902a9e853f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameEvent: {fileID: 11400000, guid: 0524cd3df56c2aa40b9846f18b556746, type: 2}
 --- !u!1001 &1353723114
 PrefabInstance:
   m_ObjectHideFlags: 0
