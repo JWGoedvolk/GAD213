@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cb4b04f6874b747af990d5db54d546, type: 3}
   m_Name: Minigun
   m_EditorClassIdentifier: 
+  Name: Minigun
   FireRate: 0.1
   DamageModifier: 0.1
   Velocity: 1.5
+  doesAutofire: 1

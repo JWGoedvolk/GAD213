@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9227251d0e11f249be210109dc90a7f, type: 3}
   m_Name: Basic
   m_EditorClassIdentifier: 
+  Name: Basic Bullet
   VelocityModifier: 1
   Damage: 1
   LifeTime: 10

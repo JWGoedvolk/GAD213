@@ -10,12 +10,13 @@ public class BulletMove : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Vector2 recordedVelocity;
+    [SerializeField] private bool isPaused = false;
 
     [Header("Animations")]
     [SerializeField] private Animator animator;
     [SerializeField] private float animationTime = 0f;
     [SerializeField] private float explodeLength = 0.25f;
-    // *Damage stuff (probably not best to put it here)
 
     // Start is called before the first frame update
     void Awake()
@@ -27,16 +28,31 @@ public class BulletMove : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // Check lifetime
-        curTime += Time.deltaTime;
-        if (curTime > lifeTime)
+        if (!isPaused)
         {
-            animator.SetBool("Exploding", true);
-            animationTime += Time.deltaTime;
-            if (animationTime > explodeLength)
+            // Check lifetime
+            curTime += Time.deltaTime;
+            if (curTime > lifeTime) // Check if the bullet died
             {
-                Destroy(gameObject); // Destory the projectile if it is at the end of its life
+                animator.SetBool("Exploding", true);
+                animationTime += Time.deltaTime;
+                if (animationTime > explodeLength)
+                {
+                    Destroy(gameObject); // Destory the projectile if it is at the end of its life
+                }
             }
         }
+    }
+
+    public void PauseBullet()
+    {
+        recordedVelocity = rb.velocity;
+        rb.velocity = Vector2.zero;
+        isPaused = true;
+    }
+    public void UnpauseBullet()
+    {
+        rb.AddForce(transform.up * recordedVelocity.magnitude, ForceMode2D.Impulse);
+        isPaused = false;
     }
 }

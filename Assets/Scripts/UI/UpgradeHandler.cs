@@ -42,7 +42,7 @@ public class UpgradeHandler : MonoBehaviour
         {
             do
             {
-                IDChosen = Random.Range(1, UpgradeNames.Count);
+                IDChosen = Random.Range(1, UpgradeNames.Count-2);
                 Debug.Log($"{i}: {IDChosen}");
             } while (UpgradeIDsChosen.Contains(IDChosen));
             UpgradeIDsChosen.Add(IDChosen);

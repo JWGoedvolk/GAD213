@@ -119,9 +119,11 @@ GameObject:
   - component: {fileID: 8458162429910456561}
   - component: {fileID: 272268910822688245}
   - component: {fileID: 4195821334609371255}
+  - component: {fileID: -8568802533372463895}
+  - component: {fileID: -1962119484543276872}
   m_Layer: 0
   m_Name: PlayerProjectile
-  m_TagString: Untagged
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,6 +221,8 @@ MonoBehaviour:
   lifeTime: 10
   curTime: 0
   rb: {fileID: 0}
+  recordedVelocity: {x: 0, y: 0}
+  isPaused: 0
   animator: {fileID: 0}
   animationTime: 0
   explodeLength: 0.18
@@ -236,3 +240,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: {x: -9, y: 9}
   height: {x: -5.25, y: 5.25}
+--- !u!114 &-8568802533372463895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7001501010301744644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b720179b40f92764591bef902a9e853f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameEvent: {fileID: 11400000, guid: 0524cd3df56c2aa40b9846f18b556746, type: 2}
+  OnRaised:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 272268910822688245}
+        m_TargetAssemblyTypeName: BulletMove, Assembly-CSharp
+        m_MethodName: PauseBullet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &-1962119484543276872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7001501010301744644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b720179b40f92764591bef902a9e853f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameEvent: {fileID: 11400000, guid: 4b329cab97bc079459de880bed643e14, type: 2}
+  OnRaised:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 272268910822688245}
+        m_TargetAssemblyTypeName: BulletMove, Assembly-CSharp
+        m_MethodName: UnpauseBullet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

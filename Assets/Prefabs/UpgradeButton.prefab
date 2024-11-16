@@ -159,14 +159,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RB: {fileID: 0}
+  weaponSystem: {fileID: 0}
   Speed: {fileID: 11400000, guid: 23da5ae8e7dca834a922df070a0011f0, type: 2}
   MaxSpeed: {fileID: 11400000, guid: aa261c93f7dea6449af9236fac1ac772, type: 2}
   TurnSpeed: {fileID: 11400000, guid: 3e4bcf2fc87089d48a156c657bf2204c, type: 2}
-  weaponSystem: {fileID: 0}
+  Weapon: {fileID: 0}
+  Bullet: {fileID: 0}
   button: {fileID: 1931172820676901475}
   text: {fileID: 1776860188674075674}
   UpgradeID: 0
-  maxUpgradeID: 8
   upgradeNames:
   - Not In Use
   - Mass Up
@@ -185,6 +186,7 @@ MonoBehaviour:
   - Bullet Speed Down
   - Bullet Size Up
   - Bullet Size Down
+  Unpause: {fileID: 11400000, guid: 4b329cab97bc079459de880bed643e14, type: 2}
 --- !u!1 &9139887160640806313
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7cb4b04f6874b747af990d5db54d546, type: 3}
-  m_Name: Railgun
+  m_Script: {fileID: 11500000, guid: cb9322e7cc23db846b98c158a13c1bdf, type: 3}
+  m_Name: UnpauseGame
   m_EditorClassIdentifier: 
-  Name: Railgun
-  FireRate: 2.5
-  DamageModifier: 5
-  Velocity: 5
-  doesAutofire: 0
+  listeners: []
