@@ -1,97 +1,89 @@
+using SAE.EventSystem;
+using SAE.Scene;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradeHandler : MonoBehaviour
+namespace SAE.Upgrades
 {
-    [Header("Player References")]
-    public Rigidbody2D RB;
-    public FloatVarScriptable Speed;
-    public FloatVarScriptable MaxSpeed;
-
-    [Header("UI")]
-    public GameObject UpgradePanel;
-    public List<UpgradeButton> Buttons;
-    public List<string> UpgradeNames;
-    public List<int> UpgradeIDsChosen;
-    public int IDChosen = 0;
-
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Handles setting the UpgradeIDs on the upgrade buttons. Also does the same for weapon and bullet switching
+    /// </summary>
+    public class UpgradeHandler : MonoBehaviour
     {
-        
-    }
+        [Header("UI")]
+        public GameObject UpgradePanel;
+        public List<UpgradeButton> Buttons;
+        public List<string> UpgradeNames;
+        public List<int> UpgradeIDsChosen;
+        public int IDChosen = 0;
+        public bool isLeveledUp = false;
+        public GameEventScriptable UnPause;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        // Update is called once per frame
+        void Update()
         {
-            HideUpgrades(true);
-        }
-    }
-
-    public void SetUpgrades()
-    {
-        // Reset and set button 1
-        UpgradeIDsChosen.Clear();
-        
-        // Set All the upgrades
-        for (int i = 0; i < Buttons.Count; i++)
-        {
-            do
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
-                IDChosen = Random.Range(1, UpgradeNames.Count-2);
-                Debug.Log($"{i}: {IDChosen}");
-            } while (UpgradeIDsChosen.Contains(IDChosen));
-            UpgradeIDsChosen.Add(IDChosen);
-            Buttons[i].UpgradeID = IDChosen;
-            Buttons[i].gameObject.SetActive(true);
+                ShowUpgrades();
+            }
         }
-    }
-    public void HideUpgrades(bool state = false)
-    {
-        if (state) SetUpgrades();
-        for (int i = 0; i < Buttons.Count; i++)
-        {
-            Buttons[i].gameObject.SetActive(state);
-        }
-        UpgradePanel.SetActive(state);
-    }
 
-    public void Upgrade(int upgradeID)
-    {
-        switch (upgradeID)
+        /// <summary>
+        /// Sets the UpgradeIDs in the list of buttons. These IDs do not repeat in the chosen IDs
+        /// </summary>
+        public void SetUpgrades()
         {
-            case 0:
-                break;
-            case 1:
-                RB.mass += 0.5f;
-                break;
-            case 2:
-                RB.mass -= 0.5f;
-                break;
-            case 3:
-                RB.drag -= 0.1f;
-                break;
-            case 4:
-                RB.drag += 0.1f;
-                break;
-            case 5:
-                Speed.Value += 0.5f;
-                break;
-            case 6:
-                Speed.Value -= 0.5f;
-                break;
-            case 7:
-                MaxSpeed.Value += 0.5f;
-                break;
-            case 8:
-                MaxSpeed.Value -= 0.5f;
-                break;
-            default:
-                break;
+            // Reset and set button 1
+            UpgradeIDsChosen.Clear();
+
+            // Set All the upgrades
+            for (int i = 0; i < Buttons.Count; i++)
+            {
+                do
+                {
+                    IDChosen = Random.Range(1, UpgradeNames.Count - 2);
+                    //Debug.Log($"{i}: {IDChosen}");
+                } while (UpgradeIDsChosen.Contains(IDChosen));
+                UpgradeIDsChosen.Add(IDChosen);
+                Buttons[i].UpgradeID = IDChosen;
+                Buttons[i].gameObject.SetActive(true);
+            }
         }
-    }
+        /// <summary>
+        /// This controlls whether the upgrade panel is hidden or visible
+        /// </summary>
+        /// <param name="state">bool => the state to set it to</param>
+        public void ShowUpgrades()
+        {
+            if (!isLeveledUp)
+            {
+                for (int i = 0; i < Buttons.Count; i++)
+                {
+                    Buttons[i].gameObject.SetActive(false);
+                }
+                UpgradePanel.SetActive(false);
+                UnPause.Raise();
+            }
+
+            if (isLeveledUp)
+            {
+                SetUpgrades();
+                isLeveledUp = false;
+                for (int i = 0; i < Buttons.Count; i++)
+                {
+                    Buttons[i].gameObject.SetActive(true);
+                }
+                UpgradePanel.SetActive(true);
+            }
+        }
+
+        public void Skip()
+        {
+            isLeveledUp = false;
+            UpgradePanel.SetActive(false);
+        }
+    } 
 }

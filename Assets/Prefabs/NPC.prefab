@@ -12,6 +12,11 @@ GameObject:
   - component: {fileID: 5628036700044626059}
   - component: {fileID: 253345208650296215}
   - component: {fileID: 7479132393568709355}
+  - component: {fileID: 2352267953106353564}
+  - component: {fileID: 1944530868069618186}
+  - component: {fileID: 124384926285434710}
+  - component: {fileID: 6484556742230825659}
+  - component: {fileID: 9124146958590296065}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -55,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 361241c12fa393340b2663ab50f7fb9c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,13 +104,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cb372500c45a6441a0f04e7c5b8e4e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactKey: 101
+  isTriggering: 0
+  isTriggered: 0
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UpgradeHandler, Assembly-CSharp
-        m_MethodName: HideUpgrades
-        m_Mode: 6
+      - m_Target: {fileID: 11400000, guid: 0524cd3df56c2aa40b9846f18b556746, type: 2}
+        m_TargetAssemblyTypeName: GameEventScriptable, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -114,7 +122,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  isTriggering: 0
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: SAE.Upgrades.UpgradeHandler, Assembly-CSharp
+        m_MethodName: ShowUpgrades
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  BlacklistTags:
+  - PlayerBullet
+  - Untagged
   TriggerEnter:
     m_PersistentCalls:
       m_Calls:
@@ -204,6 +226,125 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.2
+--- !u!114 &2352267953106353564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192887919748687035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b720179b40f92764591bef902a9e853f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameEvent: {fileID: 11400000, guid: 738eb7311d753c845978afe0a59bc695, type: 2}
+  OnRaised:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 253345208650296215}
+        m_TargetAssemblyTypeName: InteractorHandler, Assembly-CSharp
+        m_MethodName: Triggered
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1944530868069618186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192887919748687035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b720179b40f92764591bef902a9e853f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameEvent: {fileID: 11400000, guid: fbbc023cdeb243547bb68a1b9bd98db8, type: 2}
+  OnRaised:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6484556742230825659}
+        m_TargetAssemblyTypeName: SAE.Scene.Dissolver, Assembly-CSharp
+        m_MethodName: Appear
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &124384926285434710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192887919748687035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b720179b40f92764591bef902a9e853f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameEvent: {fileID: 11400000, guid: 1f9ea36bebc1f274bb72b61cb8da88e7, type: 2}
+  OnRaised:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6484556742230825659}
+        m_TargetAssemblyTypeName: SAE.Scene.Dissolver, Assembly-CSharp
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6484556742230825659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192887919748687035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9eb60c64a538649a68cffd506f8c79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveTime: 10
+  isDissolved: 1
+  anim: {fileID: 9124146958590296065}
+  destoryOnDissolve: 1
+  disableOnDisolve: 0
+  shouldDestroy: 0
+--- !u!111 &9124146958590296065
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192887919748687035}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: c47173a8a65258e4fa27c41048e0560b, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: c47173a8a65258e4fa27c41048e0560b, type: 2}
+  - {fileID: 7400000, guid: 93152d9d265ce1d4e86a5c77cf8b7fa1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &675613904948787372
 GameObject:
   m_ObjectHideFlags: 0

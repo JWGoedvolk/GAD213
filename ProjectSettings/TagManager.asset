@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayerBullet
+  - Enemy
+  - XPOrb
   layers:
   - Default
   - TransparentFX
@@ -41,4 +43,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 651448853
     locked: 0

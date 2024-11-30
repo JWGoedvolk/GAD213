@@ -1,76 +1,90 @@
+using SAE.Health;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SAE.Weapons.Weapons;
+using SAE.Weapons.Bullets;
 
-public class WeaponSystem : MonoBehaviour
+namespace SAE.Weapons
 {
-    [Header("Bullets")]
-    [SerializeField] public  BulletScriptable bulletStat;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] public  float bulletSpeedModifier;
-    [SerializeField] public  float bulletSizeModifier;
-
-    [Header("Weapons")]
-    [SerializeField] private Transform firePoint;
-    [SerializeField] public  WeaponScriptables weaponStats;
-    [SerializeField] private float fireTime = 0f;
-    [SerializeField] public  float fireRateModifier = 1f;
-    [SerializeField] private bool isFireable = true;
-    [SerializeField] private KeyCode fireKey = KeyCode.K;
-
-    [Header("Stored Stats")]
-    [SerializeField] private float speed;
-    [SerializeField] private Rigidbody2D player;
-
-
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// This script handles the player firing their weapon
+    /// </summary>
+    public class WeaponSystem : MonoBehaviour
     {
-        player = GetComponent<Rigidbody2D>();
-    }
+        [Header("Bullets")]
+        [SerializeField] public BulletScriptable bulletStat;
+        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] public float bulletSpeedModifier;
+        [SerializeField] public float bulletSizeModifier;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isFireable)
+        [Header("Weapons")]
+        [SerializeField] private Transform firePoint;
+        [SerializeField] public WeaponScriptables weaponStats;
+        [SerializeField] private float fireTime = 0f;
+        [SerializeField] public float fireRateModifier = 1f;
+        [SerializeField] private bool isFireable = true;
+        [SerializeField] private KeyCode fireKey = KeyCode.K;
+
+        [Header("Stored Stats")]
+        [SerializeField] private float speed;
+        [SerializeField] private Rigidbody2D player;
+
+
+        // Start is called before the first frame update
+        void Start()
         {
-            fireTime += Time.deltaTime;
-            if (fireTime >= weaponStats.FireRate * fireRateModifier)
-            {
-                isFireable = true;
-                fireTime = 0f;
-            }
+            player = GetComponent<Rigidbody2D>();
         }
 
-        if (weaponStats.doesAutofire)
+        // Update is called once per frame
+        void Update()
         {
-            if (Input.GetKey(fireKey) && isFireable)
+            if (!isFireable)
             {
-                // Spawn the bullet
-                var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-                bullet.transform.localScale = Vector3.one * bulletSizeModifier;
-                // Shoot the bullet forward
-                speed = (weaponStats.Velocity * bulletStat.VelocityModifier) * bulletSpeedModifier;
-                bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * (player.velocity.magnitude + speed), ForceMode2D.Impulse);
-
-                isFireable = false;
+                fireTime += Time.deltaTime;
+                if (fireTime >= weaponStats.FireRate * fireRateModifier)
+                {
+                    isFireable = true;
+                    fireTime = 0f;
+                }
             }
+
+            if (weaponStats.doesAutofire) // Continuos firing
+            {
+                if (Input.GetKey(fireKey) && isFireable) 
+                {
+                    ShootBullet();
+                }
+            }
+            else // Needs to lift and press key again
+            {
+                if (Input.GetKeyDown(fireKey) && isFireable) 
+                {
+                    ShootBullet();
+                }
+            }
+
+
         }
-        else
+
+        /// <summary>
+        /// Instantiates the bullet and sets its inheritted speed from the player as well as any other stats that need to be set to get the bullet working
+        /// </summary>
+        private void ShootBullet()
         {
-            if (Input.GetKeyDown(fireKey) && isFireable)
-            {
-                // Spawn the bullet
-                var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-                bullet.transform.localScale = Vector3.one * bulletSizeModifier;
-                // Shoot the bullet forward
-                speed = (weaponStats.Velocity * bulletStat.VelocityModifier) * bulletSpeedModifier;
-                bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * (player.velocity.magnitude + speed), ForceMode2D.Impulse);
+            // Spawn the bullet
+            var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            bullet.transform.localScale = Vector3.one * bulletSizeModifier;
+            // Shoot the bullet forward
+            speed = (weaponStats.Velocity * bulletStat.VelocityModifier) * bulletSpeedModifier;
+            bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * (player.velocity.magnitude + speed), ForceMode2D.Impulse);
 
-                isFireable = false;
-            }
+            // Sets bullet damage
+            bullet.GetComponent<Damager>().Damage = bulletStat.Damage * weaponStats.DamageModifier;
+
+            // Stops us from firing before the cooldown is over
+            isFireable = false;
         }
-
-        
-    }
+    } 
 }

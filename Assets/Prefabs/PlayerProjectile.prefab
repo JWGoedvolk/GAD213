@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 5723397232860691018}
   - component: {fileID: 8458162429910456561}
   - component: {fileID: 272268910822688245}
+  - component: {fileID: 8799724960644414057}
   - component: {fileID: 4195821334609371255}
   - component: {fileID: -8568802533372463895}
   - component: {fileID: -1962119484543276872}
@@ -226,6 +227,22 @@ MonoBehaviour:
   animator: {fileID: 0}
   animationTime: 0
   explodeLength: 0.18
+--- !u!114 &8799724960644414057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7001501010301744644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1601b184eeefe4593de961ae596eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 1
+  TagWhitelist:
+  - Enemy
+  destroyOnDamaged: 0
 --- !u!114 &4195821334609371255
 MonoBehaviour:
   m_ObjectHideFlags: 0

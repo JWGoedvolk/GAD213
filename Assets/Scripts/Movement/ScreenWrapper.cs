@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScreenWrapper : MonoBehaviour
+namespace SAE.Movement
 {
-    public Vector2 width;
-    public Vector2 height;
-
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// This script is responsible for allowing the attached game object wrap around a confgurable boundry
+    /// </summary>
+    public class ScreenWrapper : MonoBehaviour
     {
-        if (transform.position.x < width.x) { transform.position = new Vector3(width.y - 0.1f, transform.position.y, transform.position.z); }
-        if (transform.position.x > width.y) { transform.position = new Vector3(width.x + 0.1f, transform.position.y, transform.position.z); }
+        public Vector2 width;
+        public Vector2 height;
 
-        if (transform.position.y < height.x) { transform.position = new Vector3(transform.position.x, height.y, transform.position.z); }
-        if (transform.position.y > height.y) { transform.position = new Vector3(transform.position.x, height.x, transform.position.z); }
-    }
+        // Update is called once per frame
+        void Update()
+        {
+            if (transform.position.x < width.x) { transform.position = new Vector3(width.y - 0.1f, transform.position.y, transform.position.z); }
+            if (transform.position.x > width.y) { transform.position = new Vector3(width.x + 0.1f, transform.position.y, transform.position.z); }
+
+            if (transform.position.y < height.x) { transform.position = new Vector3(transform.position.x, height.y, transform.position.z); }
+            if (transform.position.y > height.y) { transform.position = new Vector3(transform.position.x, height.x, transform.position.z); }
+        }
+    } 
 }

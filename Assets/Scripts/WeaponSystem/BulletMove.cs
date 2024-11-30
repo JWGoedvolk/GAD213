@@ -1,58 +1,97 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class BulletMove : MonoBehaviour
+namespace SAE.Weapons
 {
-    // Lifetime of the projectile
-    [SerializeField] public float lifeTime = 1f;
-    [SerializeField] private float curTime = 0f;
-
-    [Header("Physics")]
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Vector2 recordedVelocity;
-    [SerializeField] private bool isPaused = false;
-
-    [Header("Animations")]
-    [SerializeField] private Animator animator;
-    [SerializeField] private float animationTime = 0f;
-    [SerializeField] private float explodeLength = 0.25f;
-
-    // Start is called before the first frame update
-    void Awake()
+    /// <summary>
+    /// Moves the attached bullet projectile forward
+    /// </summary>
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class BulletMove : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody2D>();
-        animator = gameObject.GetComponentInChildren<Animator>();
-    }
+        [Header("Bullet Lifetime")]
+        [SerializeField] public float lifeTime = 1f;
+        [SerializeField] private float curTime = 0f;
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (!isPaused)
+        [Header("Physics")]
+        [SerializeField] private Rigidbody2D rb;
+        [SerializeField] private Vector2 recordedVelocity;
+        [SerializeField] private bool isPaused = false;
+
+        [Header("Animations")]
+        [SerializeField] private Animator animator;
+        [SerializeField] private float animationTime = 0f;
+        [SerializeField] private float explodeLength = 0.25f;
+
+        void Awake()
         {
-            // Check lifetime
-            curTime += Time.deltaTime;
-            if (curTime > lifeTime) // Check if the bullet died
+            // Automatically grab all necesary components
+            rb = GetComponent<Rigidbody2D>();
+            animator = gameObject.GetComponentInChildren<Animator>();
+
+            // Get the length of the exploding animation
+            AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+            foreach (var clip in clips)
             {
-                animator.SetBool("Exploding", true);
-                animationTime += Time.deltaTime;
-                if (animationTime > explodeLength)
+                if (clip.name == "FireBulletExplode")
                 {
-                    Destroy(gameObject); // Destory the projectile if it is at the end of its life
+                    explodeLength = clip.length;
+                }
+                else
+                {
+                    continue;
                 }
             }
         }
-    }
 
-    public void PauseBullet()
-    {
-        recordedVelocity = rb.velocity;
-        rb.velocity = Vector2.zero;
-        isPaused = true;
-    }
-    public void UnpauseBullet()
-    {
-        rb.AddForce(transform.up * recordedVelocity.magnitude, ForceMode2D.Impulse);
-        isPaused = false;
-    }
+        void FixedUpdate()
+        {
+            if (!isPaused)
+            {
+                curTime += Time.deltaTime;
+                if (curTime > lifeTime) // Check if the bullet died
+                {
+                    if (!animator.GetBool("Exploding"))
+                    {
+                        StartCoroutine(DestroyBullet());
+                    }
+                }
+            }
+        }
+
+        public IEnumerator DestroyBullet()
+        {
+            Debug.Log("Destorying bullet");
+            if (animator.GetBool("Exploding"))
+            {
+                yield return null; // We are already exploding so no need to explode again
+            }
+
+            // Set the animator to play the exploding animation then destroy the game object
+            animator.SetBool("Exploding", true);
+            yield return new WaitForSeconds(explodeLength);
+            Destroy(gameObject);
+        }
+
+        /// <summary>
+        /// Stops the bullet from moving when the game is paused
+        /// </summary>
+        public void PauseBullet()
+        {
+            recordedVelocity = rb.velocity;
+            rb.velocity = Vector2.zero;
+            isPaused = true;
+        }
+
+        /// <summary>
+        /// Starts the bullet moving like it did before being paused
+        /// </summary>
+        public void UnpauseBullet()
+        {
+            rb.AddForce(transform.up * recordedVelocity.magnitude, ForceMode2D.Impulse);
+            isPaused = false;
+        }
+    } 
 }

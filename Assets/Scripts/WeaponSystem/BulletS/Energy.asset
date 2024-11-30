@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Energy
   m_EditorClassIdentifier: 
   Name: Energy Round
-  VelocityModifier: 1
+  VelocityModifier: 3
   Damage: 2
   LifeTime: 5
