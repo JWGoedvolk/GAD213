@@ -28,6 +28,7 @@ namespace SAE.EventSystem
         /// </summary>
         public void Raise()
         {
+            Debug.Log($"{gameObject.name} event listener raised");
             OnRaised?.Invoke();
         }
     }

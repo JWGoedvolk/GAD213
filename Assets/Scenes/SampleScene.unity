@@ -3318,8 +3318,8 @@ MonoBehaviour:
   turnSpeed: {fileID: 11400000, guid: 3e4bcf2fc87089d48a156c657bf2204c, type: 2}
   curTurnSpeed: 0
   maxTurnSpeed: 5
-  turnSpeedStepFactor: 2
-  turnDragFactor: 1.5
+  turnSpeedStepFactor: 1
+  turnDragFactor: 4
   animator: {fileID: 1208675206}
   recordedVelocity: {x: 0, y: 0}
   recordedAngularVelocity: 0
@@ -3455,8 +3455,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 7001501010301744644, guid: 2e73478c2de4cca42b89ef0fbbbde952, type: 3}
   bulletSpeedModifier: 1
   bulletSizeModifier: 1
+  isPaused: 0
   firePoint: {fileID: 374400064}
-  weaponStats: {fileID: 11400000, guid: b8aa0269fb908124eb34804ae475b5cd, type: 2}
+  weaponStats: {fileID: 11400000, guid: bd54038a64ba1604aa996fd0d938693d, type: 2}
   fireTime: 0
   fireRateModifier: 1
   isFireable: 1
@@ -3482,6 +3483,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1208675202}
         m_TargetAssemblyTypeName: Movement, Assembly-CSharp
         m_MethodName: PauseMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1208675207}
+        m_TargetAssemblyTypeName: SAE.Weapons.WeaponSystem, Assembly-CSharp
+        m_MethodName: PauseSystem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3543,6 +3556,30 @@ MonoBehaviour:
       - m_Target: {fileID: 1208675202}
         m_TargetAssemblyTypeName: SAE.Movement.Player.Movement, Assembly-CSharp
         m_MethodName: UnpauseMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1208675207}
+        m_TargetAssemblyTypeName: SAE.Weapons.WeaponSystem, Assembly-CSharp
+        m_MethodName: UnPauseSystem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1607916431}
+        m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
+        m_MethodName: CheckWaveDone
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

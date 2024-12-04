@@ -1,3 +1,4 @@
+using SAE.Movement.Enemy;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -35,6 +36,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnWave()
     {
+        Debug.LogWarningFormat("spawning enemy wave");
         if (wave >= enemyCounts.Count)
         {
             wave = enemyCounts.Count;
@@ -54,11 +56,13 @@ public class EnemySpawner : MonoBehaviour
     public void EnemyKilled()
     {
         EnemiesAlive--;
+        CheckWaveDone();
     }
 
     public void CheckWaveDone()
     {
-        if (EnemiesAlive == 0)
+        var enemies = FindObjectsOfType<EnemyMovement>().Length;
+        if (enemies <= 0)
         {
             SpawnWave();
         }

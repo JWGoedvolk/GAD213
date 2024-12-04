@@ -40,7 +40,7 @@ namespace SAE.Movement.Player
             if (!isPaused)
             {
                 // Thrusting
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetAxis("Fire2") > 0f)
                 {
                     isThrusting = true;
                     animator.SetBool("IsMoving", isThrusting);
@@ -55,13 +55,10 @@ namespace SAE.Movement.Player
                     curSpeed = Mathf.MoveTowards(curSpeed, 0f, Time.deltaTime * 2 * speedTimeStepFactor);
                 }
 
-                if (Input.GetKey(KeyCode.A)) // Turning
+                var horizontal = Input.GetAxis("Horizontal");
+                if (horizontal < 0f || horizontal > 0f) // Turning
                 {
-                    curTurnSpeed = Mathf.MoveTowards(curTurnSpeed, turnSpeed.Value, Time.deltaTime * turnSpeedStepFactor);
-                }
-                else if (Input.GetKey(KeyCode.D)) // Turning
-                {
-                    curTurnSpeed = Mathf.MoveTowards(curTurnSpeed, -turnSpeed.Value, Time.deltaTime * turnSpeedStepFactor);
+                    curTurnSpeed = Mathf.MoveTowards(curTurnSpeed, turnSpeed.Value * -horizontal, Time.deltaTime * turnSpeedStepFactor);
                 }
                 else // Not turning
                 {

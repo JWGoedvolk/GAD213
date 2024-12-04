@@ -19,11 +19,12 @@ namespace SAE.Weapons
         [SerializeField] public float bulletSizeModifier;
 
         [Header("Weapons")]
+        [SerializeField] private bool isPaused = false;
         [SerializeField] private Transform firePoint;
         [SerializeField] public WeaponScriptables weaponStats;
         [SerializeField] private float fireTime = 0f;
         [SerializeField] public float fireRateModifier = 1f;
-        [SerializeField] private bool isFireable = true;
+        [SerializeField] public bool isFireable = true;
         [SerializeField] private KeyCode fireKey = KeyCode.K;
 
         [Header("Stored Stats")]
@@ -40,32 +41,34 @@ namespace SAE.Weapons
         // Update is called once per frame
         void Update()
         {
-            if (!isFireable)
+            if (!isPaused)
             {
-                fireTime += Time.deltaTime;
-                if (fireTime >= weaponStats.FireRate * fireRateModifier)
+                if (!isFireable)
                 {
-                    isFireable = true;
-                    fireTime = 0f;
+                    fireTime += Time.deltaTime;
+                    if (fireTime >= weaponStats.FireRate * fireRateModifier)
+                    {
+                        isFireable = true;
+                        fireTime = 0f;
+                    }
                 }
-            }
 
-            if (weaponStats.doesAutofire) // Continuos firing
-            {
-                if (Input.GetKey(fireKey) && isFireable) 
+                if (weaponStats.doesAutofire) // Continuos firing
                 {
-                    ShootBullet();
+                    if (Input.GetAxis("Fire1") > 0f && isFireable)
+                    {
+                        ShootBullet();
+                    }
                 }
-            }
-            else // Needs to lift and press key again
-            {
-                if (Input.GetKeyDown(fireKey) && isFireable) 
+                else // Needs to lift and press key again
                 {
-                    ShootBullet();
+                    if (Input.GetAxis("Fire1") > 0f && isFireable)
+                    {
+                        ShootBullet();
+                    }
                 }
+
             }
-
-
         }
 
         /// <summary>
@@ -85,6 +88,15 @@ namespace SAE.Weapons
 
             // Stops us from firing before the cooldown is over
             isFireable = false;
+        }
+
+        public void PauseSystem()
+        {
+            isPaused = true;
+        }
+        public void UnPauseSystem()
+        {
+            isPaused = false;
         }
     } 
 }

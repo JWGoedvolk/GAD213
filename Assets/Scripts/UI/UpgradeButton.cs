@@ -127,6 +127,7 @@ namespace SAE.Upgrades
                     break;
                 case 17: 
                     weaponSystem.weaponStats = Weapon;
+                    weaponSystem.isFireable = true;
                     weaponUpgrade.SetPanel(false);
                     break;
                 case 18: 
