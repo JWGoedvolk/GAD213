@@ -37,7 +37,7 @@ namespace SAE.Movement.Player
         // Update is called once per frame
         void Update()
         {
-            if (!isPaused)
+            if (!GameManager.IsPaused)
             {
                 // Thrusting
                 if (Input.GetAxis("Fire2") > 0f)
@@ -74,7 +74,7 @@ namespace SAE.Movement.Player
 
         private void FixedUpdate()
         {
-            if (!isPaused)
+            if (!GameManager.IsPaused)
             {
                 if (isThrusting) // Move us forward
                 {

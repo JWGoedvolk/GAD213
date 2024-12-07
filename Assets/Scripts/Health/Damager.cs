@@ -14,12 +14,12 @@ namespace SAE.Health
         public float Damage = 1f;
         public List<string> TagWhitelist = new List<string>();
         [SerializeField] private bool destroyOnDamaged = true;
-
+        
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (TagWhitelist.Contains(collision.tag)) // We've triggered something that we should deal damage to
+            if (TagWhitelist.Contains(collision.gameObject.tag)) // We've triggered something that we should deal damage to
             {
-                var health = collision.GetComponent<HealthManager>();
+                var health = collision.gameObject.GetComponent<HealthManager>();
                 if (health != null )
                 {
                     health.Health = -Damage;
@@ -39,6 +39,7 @@ namespace SAE.Health
                 }
             }
         }
+        
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
