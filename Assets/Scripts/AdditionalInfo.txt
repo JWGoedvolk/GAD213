@@ -3,6 +3,14 @@ MetaData file:
 	long tick
 	string rawLink
 }
+Data t save to player save data:
+Score | int
+Weapon name | string
+Firerate modifier | float
+Damage modifier | float
+Bullet name | string
+Bullet speed modifier | float
+Bullet size modifier | float
 
 How to update file on the cloud:
 1. turn the local file into byte[] | AssetLoader

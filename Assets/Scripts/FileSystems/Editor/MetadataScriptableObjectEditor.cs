@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using JW.GPG.CloudSave;
 
 [CustomEditor(typeof(MetaDataScriptableObject))]
 public class MetadataScriptableObjectEditor : Editor

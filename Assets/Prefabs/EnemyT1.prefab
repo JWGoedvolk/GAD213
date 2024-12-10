@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   moveSpeed: 1
-  rotateSpeed: 1
+  rotateSpeed: 1.2
   rb: {fileID: 0}
   isPaused: 0
 --- !u!114 &8606623615584268096

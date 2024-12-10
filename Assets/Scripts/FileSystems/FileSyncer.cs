@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
+using JW.GPG.CloudSave;
 
 public class FileSyncer : MonoBehaviour
 {
@@ -62,6 +63,7 @@ public class FileSyncer : MonoBehaviour
                 Debug.Log($"{metaData.filename} is up to date");
             }
         }
+        Debug.Log("[STARTUP][SYNC] Completed file syncing");
     }
 
     private IEnumerator DownloadFile(string fileLink, string savePath)

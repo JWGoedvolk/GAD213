@@ -20,7 +20,7 @@ namespace SAE.Weapons
 
         [Header("Weapons")]
         [SerializeField] private bool isPaused = false;
-        [SerializeField] private Transform firePoint;
+        [SerializeField] public Transform firePoint;
         [SerializeField] public WeaponScriptables weaponStats;
         [SerializeField] private float fireTime = 0f;
         [SerializeField] public float fireRateModifier = 1f;
