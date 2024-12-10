@@ -446,7 +446,7 @@ MonoBehaviour:
   Username: Slartibartfast42
   Password: 543Duba!JW
   Email: janwillem.goedvolk@gmail.com
-  Score: 0
+  Score: 100
 --- !u!114 &1208675207 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3152323037328883936, guid: d15f00b5363edc54082484d8e2e356c3, type: 3}
@@ -1221,12 +1221,12 @@ GameObject:
   - component: {fileID: 1806869726}
   - component: {fileID: 1806869725}
   m_Layer: 5
-  m_Name: FirestoreTest
+  m_Name: SignIn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1806869725
 MonoBehaviour:
   m_ObjectHideFlags: 0

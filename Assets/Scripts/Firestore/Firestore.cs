@@ -73,7 +73,28 @@ namespace JW.GPG.Firestore
 
         public void LoadFromCloud()
         {
-            Debug.LogWarning("Loading from Firebase Firestore not yet implemented");
+            Debug.Log($"[INFO][DB] Loading data from Firestore at {CollectionName}/{Email}");
+            DocumentReference docRef = db.Collection(CollectionName).Document(Email);
+            docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+            {
+                DocumentSnapshot snapshot = task.Result;
+                if (snapshot.Exists)
+                {
+                    Debug.Log($"Loading data from {snapshot.Id}");
+                    Dictionary<string, object> data = snapshot.ToDictionary();
+                    foreach (var item in data)
+                    {
+                        Debug.Log($"{item.Key}: {item.Value}");
+                        data[item.Key] = item.Value;
+                    }
+
+                    Debug.Log($"[INFO][DB] Finished loading data from {CollectionName}/{Email}");
+                }
+                else
+                {
+                    Debug.LogError(string.Format("Document {0} does not exist!", snapshot.Id));
+                }
+            });
         }
     } 
 }
