@@ -12,11 +12,13 @@ namespace SAE.Weapons
     /// </summary>
     public class WeaponSystem : MonoBehaviour
     {
+        // TODO: Add damageModifier upgrades
         [Header("Bullets")]
         [SerializeField] public BulletScriptable bulletStat;
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] public float bulletSpeedModifier;
         [SerializeField] public float bulletSizeModifier;
+        [SerializeField] public float BulletDamageMod = 1f;
 
         [Header("Weapons")]
         [SerializeField] private bool isPaused = false;
@@ -25,7 +27,6 @@ namespace SAE.Weapons
         [SerializeField] private float fireTime = 0f;
         [SerializeField] public float fireRateModifier = 1f;
         [SerializeField] public bool isFireable = true;
-        [SerializeField] private KeyCode fireKey = KeyCode.K;
 
         [Header("Stored Stats")]
         [SerializeField] private float speed;

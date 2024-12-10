@@ -1383,6 +1383,10 @@ PrefabInstance:
       value: EnemyT1
       objectReference: {fileID: 0}
     - target: {fileID: 6457502199435328241, guid: c55a4f5e8212cf64e90c23fbaec701a6, type: 3}
+      propertyPath: Damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6457502199435328241, guid: c55a4f5e8212cf64e90c23fbaec701a6, type: 3}
       propertyPath: knockbackStrength
       value: 3
       objectReference: {fileID: 0}
@@ -2403,7 +2407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1596823274
 Transform:
   m_ObjectHideFlags: 0
