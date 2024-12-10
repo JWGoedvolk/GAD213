@@ -12,7 +12,10 @@ namespace SAE.Health
     /// </summary>
     public class HealthManager : MonoBehaviour
     {
+        // TODO: Add custom inspector for showing only player/enemy relevant variables depending on target tag
         [SerializeField] private float health;
+        [SerializeField] private float invulTime = 0.5f;
+        [SerializeField] private bool isInvul = false;
         [SerializeField] Animator animator;
         [SerializeField] float explodeLength;
         [SerializeField] float damageLength;
@@ -24,12 +27,12 @@ namespace SAE.Health
             get { return health; }
             set
             {
-                Debug.LogWarning(value);
+                //Debug.LogWarning(value);
                 health += value;
 
                 if (value <= 0f)
                 {
-                    Debug.Log("OnDamaged");
+                    Debug.Log("Invoking OnDamaged");
                     if (OnDamaged != null) 
                     { 
                         OnDamaged?.Invoke(); 
@@ -43,6 +46,12 @@ namespace SAE.Health
                         {
                             StartCoroutine(Damaged(damageLength)); // Plays the animation for the length of the damage clip
                         }
+                    }
+                    else if (gameObject.CompareTag("Player") && !isInvul)
+                    {
+                        Debug.Log("Damaging player");
+                        // Invul
+                        StartCoroutine(InvulTimer(invulTime));
                     }
                 }
                 else if (value > 0f) 
@@ -62,6 +71,11 @@ namespace SAE.Health
                             Instantiate(xpOrb, transform.position, Quaternion.identity);
                         }
                         enemyKilled.Raise();
+                    }
+                    else if (gameObject.CompareTag("Player"))
+                    {
+                        gameObject.SetActive(false);
+                        Debug.Log("Player killed");
                     }
                     if (OnDeath != null) 
                     {
@@ -119,6 +133,13 @@ namespace SAE.Health
 
             yield return new WaitForSeconds(clipLength);
             Destroy(gameObject);
+        }
+
+        private IEnumerator InvulTimer(float time)
+        {
+            isInvul = true;
+            yield return new WaitForSeconds(time);
+            isInvul = false;
         }
     } 
 }

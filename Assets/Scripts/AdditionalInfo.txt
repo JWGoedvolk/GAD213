@@ -1,3 +1,7 @@
+// TODO: Finish user authentication
+// TODO: Allow for cloud saving of score and highscore
+// TODO: Add in online highscore leaderboard
+
 Log sysntax:
 [INFO] => this is to say what is being done currently
 [DEBUG] => This is data printed for debuging purposes. These should be minimised to removed as much as possible

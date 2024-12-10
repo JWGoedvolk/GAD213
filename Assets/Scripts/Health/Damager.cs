@@ -12,6 +12,7 @@ namespace SAE.Health
     public class Damager : MonoBehaviour
     {
         public float Damage = 1f;
+        public float knockbackStrength = 2f;
         public List<string> TagWhitelist = new List<string>();
         [SerializeField] private bool destroyOnDamaged = true;
         
@@ -23,7 +24,14 @@ namespace SAE.Health
                 if (health != null )
                 {
                     health.Health = -Damage;
-                    
+
+                    if (collision.gameObject.CompareTag("Player"))
+                    {
+                        Debug.Log("Doing knockback");
+                        Rigidbody2D playerRB = collision.gameObject.GetComponent<Rigidbody2D>();
+                        playerRB.AddForce(transform.forward, ForceMode2D.Impulse);
+                    }
+
                     BulletMove bullet = GetComponent<BulletMove>();
                     if (bullet != null)
                     {
@@ -45,10 +53,19 @@ namespace SAE.Health
         {
             if (TagWhitelist.Contains(collision.gameObject.tag)) // We've collided with something that we should deal damage to
             {
+                Debug.Log($"{gameObject.name} collided with {collision.gameObject.tag}");
                 var health = collision.gameObject.GetComponent<HealthManager>();
                 if (health != null)
                 {
-                    health.Health -= Damage;
+                    health.Health = -Damage;
+
+                    if (collision.gameObject.CompareTag("Player"))
+                    {
+                        Debug.Log("Doing knockback");
+                        Rigidbody2D playerRB = collision.gameObject.GetComponent<Rigidbody2D>();
+                        playerRB.AddForce(transform.forward * knockbackStrength, ForceMode2D.Impulse);
+                        return; // We collided with a player, so no need to do bullet stuff further
+                    }
 
                     BulletMove bullet = collision.gameObject.GetComponent<BulletMove>();
                     if (bullet != null)
@@ -64,6 +81,11 @@ namespace SAE.Health
                     }
                 }
             }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawRay(transform.position, transform.forward * knockbackStrength);
         }
     }
 }
