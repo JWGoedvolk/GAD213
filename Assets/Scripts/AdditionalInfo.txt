@@ -1,9 +1,21 @@
+Log sysntax:
+[INFO] => this is to say what is being done currently
+[DEBUG] => This is data printed for debuging purposes. These should be minimised to removed as much as possible
+[STARTUP] => This is part of the start up sequence. See Start Up Sequence for more information
+[FILE] => This is to do with the file system, whether it be creating, reading, writing, downloading, uploading
+[DB] => This indicates the report has something to do with Firestore
+[USER] => This is for things to do with the users and their profiles on Firestore or locally stored
+[UPLOAD/DOWNLOAD] => Show the direction of data travel to Cloud services. UPLOAD = data being sent to Cloud service, DOWNLOAD = data coming in from Cloud service
+[ERROR] => Something went wrong and an error needs to be displayed to the player. See the attached message for the error.
+|STATUS| => Whether the process is starting, finishing, waiting.
+
 MetaData file:
 {
 	long tick
 	string rawLink
 }
-Data t save to player save data:
+
+Data to save to player save data:
 Score | int
 Weapon name | string
 Firerate modifier | float
@@ -24,3 +36,21 @@ How to update local file from cloud:
 2. write downloaded byte[] into local file | AssetLoader
 3. download byte[] of cloud meta data | AssetLoader
 4. write downloaded byte[] into local meta data file | AssetLoader
+
+How to authenticate user:
+1. Try to get all the stored users on Firestore
+1. Enter Email | UserAuthenticator
+2. Try to get the document from Firestore with the provided email.
+2.1 Success => save the player's data to the document | Firestore
+	Get the user password | UserAuthenticator
+	Compare it against the returned document | UserAuthenticator
+	if its the same, save the data. If it is different, throw error and ask to try again
+2.2 Failure => Throw error. Ask to register | UserAuthenticator
+
+How to register a new user:
+1. Get the following: | UserAuthenticator
+	Email => Document ID,
+	Username => Possibly used for online leaderboard,
+	Password => Will be used to verify its the correct user
+	Data => Stores the JSON string with things like the score, weapon stats, etc.
+2. Save the user to the Firestore database | Firestore
