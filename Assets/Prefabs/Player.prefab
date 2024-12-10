@@ -938,8 +938,11 @@ GameObject:
   - component: {fileID: 3152323037328883936}
   - component: {fileID: 2317409049292853839}
   - component: {fileID: 6874200709035366867}
+  - component: {fileID: 3288199099027679378}
   - component: {fileID: 6354873319548766462}
   - component: {fileID: 4309599055025981226}
+  - component: {fileID: 5290705633653978103}
+  - component: {fileID: 3186482809177820502}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1302,6 +1305,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3288199099027679378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4863611570658366626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b720179b40f92764591bef902a9e853f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameEvent: {fileID: 11400000, guid: 6231f2b271298a546944fdf8848d8ffe, type: 2}
+  OnRaised:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3186482809177820502}
+        m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
+        m_MethodName: AddScore
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 10
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6354873319548766462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,6 +1386,61 @@ MonoBehaviour:
   upgradeHandler: {fileID: 8886264804978902700}
   pauseGame: {fileID: 11400000, guid: 0524cd3df56c2aa40b9846f18b556746, type: 2}
   distance: 5
+--- !u!114 &5290705633653978103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4863611570658366626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d3e487eafc3da409fa7cd847dc9898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  invulTime: 0.5
+  isInvul: 0
+  animator: {fileID: 0}
+  explodeLength: 0
+  damageLength: 0
+  isDamaged: 0
+  xpOrb: {fileID: 0}
+  enemyKilled: {fileID: 0}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 0524cd3df56c2aa40b9846f18b556746, type: 2}
+        m_TargetAssemblyTypeName: SAE.EventSystem.GameEventScriptable, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHeal:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3186482809177820502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4863611570658366626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43bd6a2e22d18047bd59107b3ee0204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: 0
 --- !u!1 &5417730353210754169
 GameObject:
   m_ObjectHideFlags: 0

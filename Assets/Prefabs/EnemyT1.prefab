@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 5763315868778043119}
   - component: {fileID: 8926321992357328521}
   - component: {fileID: 5565179158115082529}
+  - component: {fileID: 6457502199435328241}
   m_Layer: 0
   m_Name: EnemyT1
   m_TagString: Enemy
@@ -158,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   moveSpeed: 1
-  rotateSpeed: 1.2
+  rotateSpeed: 2
   rb: {fileID: 0}
   isPaused: 0
 --- !u!114 &8606623615584268096
@@ -174,6 +175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  invulTime: 0
+  isInvul: 0
   animator: {fileID: 5236295714982094935}
   explodeLength: 0
   damageLength: 0
@@ -319,3 +322,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6457502199435328241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2736125079021640798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1601b184eeefe4593de961ae596eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 0.1
+  knockbackStrength: 20
+  direction: {x: 0, y: 0}
+  TagWhitelist:
+  - Player
+  destroyOnDamaged: 0

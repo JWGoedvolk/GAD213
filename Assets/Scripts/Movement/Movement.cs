@@ -104,6 +104,7 @@ namespace SAE.Movement.Player
             // Set the speeds and rotations to stop
             body.velocity = Vector2.zero;
             body.angularVelocity = 0f;
+            body.isKinematic = true;
         }
 
         /// <summary>
@@ -116,6 +117,7 @@ namespace SAE.Movement.Player
             isPaused = false;
             animator.speed = 1f;
 
+            body.isKinematic = false;
             body.velocity = recordedVelocity;
             body.angularVelocity = recordedAngularVelocity;
         }

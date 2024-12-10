@@ -13,6 +13,7 @@ namespace SAE.Health
     {
         public float Damage = 1f;
         public float knockbackStrength = 2f;
+        [SerializeField] private Vector2 direction;
         public List<string> TagWhitelist = new List<string>();
         [SerializeField] private bool destroyOnDamaged = true;
         
@@ -63,7 +64,8 @@ namespace SAE.Health
                     {
                         Debug.Log("Doing knockback");
                         Rigidbody2D playerRB = collision.gameObject.GetComponent<Rigidbody2D>();
-                        playerRB.AddForce(transform.forward * knockbackStrength, ForceMode2D.Impulse);
+                        direction = (playerRB.transform.position - transform.position).normalized;
+                        playerRB.AddForce(direction * knockbackStrength, ForceMode2D.Impulse);
                         return; // We collided with a player, so no need to do bullet stuff further
                     }
 
@@ -85,7 +87,7 @@ namespace SAE.Health
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.DrawRay(transform.position, transform.forward * knockbackStrength);
+            Gizmos.DrawRay(transform.position, direction * knockbackStrength);
         }
     }
 }
