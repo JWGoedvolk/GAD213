@@ -1,0 +1,18 @@
+MetaData file:
+{
+	long tick
+	string rawLink
+}
+
+How to update file on the cloud:
+1. turn the local file into byte[] | AssetLoader
+2. update actual file on cloud | AssetLoader
+3. turn the local meta data into byte[] | AssetLoader
+4. update meta data file on cloud | AssetLoader
+
+How to update local file from cloud:
+1. delete local file | AssetLoader
+3. download byte[] of cloud file | AssetLoader
+2. write downloaded byte[] into local file | AssetLoader
+3. download byte[] of cloud meta data | AssetLoader
+4. write downloaded byte[] into local meta data file | AssetLoader

@@ -5479,11 +5479,11 @@ GameObject:
   - component: {fileID: 1815991003}
   - component: {fileID: 1815991004}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: FileSyncer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1815991003
 Transform:
@@ -5513,8 +5513,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filesToDownload:
-  - {fileID: 11400000, guid: 20a22f5dfa371de44b874c43755ec54e, type: 2}
-  - {fileID: 11400000, guid: 4d22fbe851a4bb3429bb0bda81b0a7da, type: 2}
+  - {fileID: 11400000, guid: 806e24d3fc2412641bc62a4650cee152, type: 2}
+  - {fileID: 11400000, guid: 58c42a1546dfbb544aa039324fbf82cb, type: 2}
+  driveLink: https://drive.google.com/drive/folders/16JveCuH0LehzI3yfsa_OEAO0_dWwM7_W?usp=drive_link
 --- !u!1 &1821074567
 GameObject:
   m_ObjectHideFlags: 0

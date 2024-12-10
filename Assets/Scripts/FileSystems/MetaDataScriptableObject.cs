@@ -13,7 +13,8 @@ public class MetaDataScriptableObject : ScriptableObject
     [Header("File Data")]
     public string associatedFileLink;
     public string associatedFileExtension;
-    public string version;
+    public long tick;
+    public bool localIsNewer = false;
 
     // Runtime properties
     public string LocalMetadataFilePath => Path.Combine(Application.streamingAssetsPath, filename + extension);
@@ -23,7 +24,6 @@ public class MetaDataScriptableObject : ScriptableObject
 
     public void SetupLocalMetaData()
     {
-        version = string.Empty;
 
         if (File.Exists(LocalMetadataFilePath))
         {
@@ -32,12 +32,8 @@ public class MetaDataScriptableObject : ScriptableObject
 
             if (localMetaData != null)
             {
-                version = localMetaData.version;
+                tick = localMetaData.tick;
             }
-        }
-        else
-        {
-            version = "-1"; // No previous meta data file existed
         }
     }
 
@@ -69,16 +65,22 @@ public class MetaDataScriptableObject : ScriptableObject
         }
 
         // Step 4: Compare local and remote meta data versions
-        if (version != remoteMetadata.version)
+        if (tick > remoteMetadata.tick)
         {
-            Debug.Log($"New version detected: {remoteMetadata.version}. Updating from {version}");
-            version = remoteMetadata.version;
-
-            RemoteFileDownloadLink = GoogleDriveHelper.ConvertToDirectDownloadLink(remoteMetadata.fileLink);
+            Debug.Log($"Local file is newer | Local: {tick} vs Remote: {remoteMetadata.tick}");
+            remoteMetadata.tick = tick; // Update remote tick to match
+            localIsNewer = true;
+            return true;
+        }
+        else if (tick < remoteMetadata.tick)
+        {
+            Debug.Log($"Remote file is newer | Remote: {remoteMetadata.tick} vs Local: {tick}");
+            tick = remoteMetadata.tick;
+            localIsNewer = false;
             return true;
         }
 
-        Debug.Log($"{filename} is up to date at version: {version}");
+        Debug.Log($"{filename} is up to date at version: {tick}");
         return false;
     }
 

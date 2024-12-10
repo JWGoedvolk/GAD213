@@ -19,4 +19,20 @@ public static class GoogleDriveHelper
 
         return result;
     }
+
+    public static string GetIDFromLink(string link)
+    {
+        Match match = Regex.Match(link, @"(?:drive\.google\.com/.*?\/d\/|id=)([a-zA-Z0-9_-]+)");
+        string result = string.Empty;
+        if (match.Success)
+        {
+            result = match.Groups[1].Value;
+        }
+        else
+        {
+            Debug.LogError($"Invalid Google Drive Link provided: {link}");
+        }
+
+        return result;
+    }
 }

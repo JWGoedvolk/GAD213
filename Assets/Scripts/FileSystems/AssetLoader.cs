@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityGoogleDrive;
 
 namespace SAE.FileSystem
 {
@@ -10,6 +11,59 @@ namespace SAE.FileSystem
     /// </summary>
     public class AssetLoader
     {
+        public static byte[] FileContent;
+
+        public static void LoadFileContent(string path)
+        {
+            if (!File.Exists(path))
+            {
+                Debug.LogError($"[ERROR][FILE] No file found at destination: {path}");
+                return;
+            }
+            FileContent = File.ReadAllBytes(path);
+        }
+
+        public static IEnumerator DownloadFileFromCloud(string link, string savePath = "")
+        {
+            Debug.Log($"[INFO][CLOUD][DOWN] Download file from {link}");
+            string id = GoogleDriveHelper.GetIDFromLink(link);
+            var request = GoogleDriveFiles.Download(id);
+            yield return request.Send();
+            if (request != null )
+            {
+                if (request.IsError)
+                {
+                    Debug.Log($"[RESULT][DOWNLOAD][{id}] Error: {request.IsError}");
+                }
+                FileContent = request.ResponseData.Content;
+                Debug.Log($"[RESULT][DOWNLOAD][{id}] Create time ticks: {request.ResponseData.CreatedTime.Value.Ticks}");
+
+                // Write the file if a save path is provided
+                if (!string.IsNullOrEmpty(savePath))
+                {
+                    File.WriteAllBytes(savePath, FileContent);
+                }
+
+                Debug.Log($"[RESULT][DOWNLOAD][{id}] Finished downoading file");
+            }
+        }
+
+        public static IEnumerator UpdateFileOnCload(string fileName, string link)
+        {
+            string id = GoogleDriveHelper.GetIDFromLink(link);
+            var file = new UnityGoogleDrive.Data.File() { Id = id, Content = FileContent };
+            var request = GoogleDriveFiles.Update(id, file);
+            yield return request.Send();
+            if (request != null)
+            {
+                if (request.IsError)
+                {
+                    Debug.Log($"[RESULT][UPDATE][{id}] Error: {request.IsError}");
+                }
+                Debug.Log($"[RESULT][UPDATE][{id}] Finished updating file");
+            }
+        }
+
         public static bool CheckFile(string path)
         {
             return File.Exists(path);

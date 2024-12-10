@@ -1,6 +1,6 @@
 [System.Serializable]
 public class MetadataFile
 {
-    public string version;
+    public long tick;
     public string fileLink;
 }
