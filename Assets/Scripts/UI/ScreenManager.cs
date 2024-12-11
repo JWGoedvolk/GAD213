@@ -8,6 +8,10 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] GameObject LoadingScreenPanel;
     [SerializeField] GameObject DeathScreenPanel;
+    [SerializeField] TMP_Text DeathText;
+    [SerializeField] ScoreManager playerScore;
+    [SerializeField] EnemySpawner enemySpawner;
+    [SerializeField] string deathText = "Score: {0}\nWave: {1}";
 
     [SerializeField] TMP_Text loadingText;
     [SerializeField] float loadTextWaitTime = 0.5f;
@@ -73,6 +77,8 @@ public class ScreenManager : MonoBehaviour
 
     public void ShowDeathScreen()
     {
+        DeathText.text = string.Format(deathText, playerScore.Score, enemySpawner.wave);
+
         DeathScreenPanel.SetActive(true);
     }
 }
