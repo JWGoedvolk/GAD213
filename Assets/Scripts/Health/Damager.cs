@@ -58,7 +58,10 @@ namespace SAE.Health
                 var health = collision.gameObject.GetComponent<HealthManager>();
                 if (health != null)
                 {
-                    health.Health = -Damage;
+                    ElementalManager attackingManager = GetComponent<ElementalManager>();
+                    ElementalManager defendingManager = collision.gameObject.GetComponent<ElementalManager>();
+                    float elementalModifier = defendingManager.CalculateDamageModifier(attackingManager.element);
+                    health.Health = -Damage * elementalModifier;
 
                     if (collision.gameObject.CompareTag("Player"))
                     {

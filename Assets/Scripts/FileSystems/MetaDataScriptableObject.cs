@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace JW.GPG.CloudSave
 {
+    [System.Serializable]
     [CreateAssetMenu(fileName = "file_metadata", menuName = "Metadata/file metadata")]
     public class MetaDataScriptableObject : ScriptableObject
     {
@@ -29,12 +30,13 @@ namespace JW.GPG.CloudSave
 
             if (File.Exists(LocalMetadataFilePath))
             {
-                string localMetaDataContent = File.ReadAllText(LocalMetadataFilePath).ToString();
+                Debug.Log($"{filename} local meta data file exists");
+                string localMetaDataContent = File.ReadAllText(LocalMetadataFilePath);
                 MetadataFile localMetaData = JsonUtility.FromJson<MetadataFile>(localMetaDataContent);
 
                 if (localMetaData != null)
                 {
-                    tick = localMetaData.tick;
+                    tick = localMetaData.ticks;
                 }
             }
         }
@@ -65,19 +67,19 @@ namespace JW.GPG.CloudSave
                 Debug.LogError("Failed to parse remote meta data file to json, update is required");
                 return true;
             }
-
+            Debug.Log($"[DEBUG][FILE] Local: {tick} vs Remote: {remoteMetadata.ticks}");
             // Step 4: Compare local and remote meta data versions
-            if (tick > remoteMetadata.tick)
+            if (tick > remoteMetadata.ticks)
             {
-                Debug.Log($"Local file is newer | Local: {tick} vs Remote: {remoteMetadata.tick}");
-                remoteMetadata.tick = tick; // Update remote tick to match
+                Debug.Log($"Local file is newer | Local: {tick} vs Remote: {remoteMetadata.ticks}");
+                remoteMetadata.ticks = tick; // Update remote tick to match
                 localIsNewer = true;
                 return true;
             }
-            else if (tick < remoteMetadata.tick)
+            else if (tick < remoteMetadata.ticks)
             {
-                Debug.Log($"Remote file is newer | Remote: {remoteMetadata.tick} vs Local: {tick}");
-                tick = remoteMetadata.tick;
+                Debug.Log($"Remote file is newer | Remote: {remoteMetadata.ticks} vs Local: {tick}");
+                tick = remoteMetadata.ticks;
                 localIsNewer = false;
                 return true;
             }

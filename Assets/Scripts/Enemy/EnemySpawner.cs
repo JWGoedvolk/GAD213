@@ -1,3 +1,4 @@
+using SAE.FileSystem;
 using SAE.Movement.Enemy;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,50 +8,78 @@ using UnityEngine.Networking;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
-    [SerializeField] private List<int> enemyCounts = new List<int>(); [Tooltip("How many enemies to spawn per wave")]
+    [Header("Enemy Prefabs")]
+    [SerializeField] private GameObject fireEnemy;
+    [SerializeField] private GameObject iceEnemy;
+    [SerializeField] private GameObject acidEnemy;
+    [SerializeField] private GameObject plasmaEnemy;
+    [Header("Wave Enemy Counts")] // TODO: Add custom inspector for adding waves consistantly and easily at the push of a button
+    [SerializeField] public List<int> fireEnemies = new();
+    [SerializeField] public List<int> iceEnemies = new();
+    [SerializeField] public List<int> acidEnemies = new();
+    [SerializeField] public List<int> plasmaEnemies = new();
+    [Header("Other")]
+    [SerializeField] private List<Transform> spawnPoints = new();
+    [SerializeField] private float offsetRange = 1f;
     [SerializeField] private int wave = 0;
     public int EnemiesAlive = 0;
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
-        
+        Debug.Log("Enemy spawner waiting for wave info to extract");
+        while (!WaveExtractor.WaveInfoExtracted)
+        {
+            yield return null;
+        }
+        Debug.Log("Wave info extracted, starting enemy spawning");
+
+        SpawnWave();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            SpawnWave();
-        }
 
-        if(Input.GetKeyDown(KeyCode.O))
-        {
-            wave++;
-        }
-
-        CheckWaveDone();
     }
 
     public void SpawnWave()
     {
         Debug.LogWarningFormat("spawning enemy wave");
-        if (wave >= enemyCounts.Count)
+        if (wave >= fireEnemies.Count)
         {
-            wave = enemyCounts.Count;
+            wave--;
         }
-        for (int i = 0; i < enemyCounts[wave]; i++)
+        
+        for(int fireCount = 0; fireCount < fireEnemies[wave]; fireCount++)
         {
-            var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-            float offsetX = Random.Range(1, 3);
-            float offsetY = Random.Range(1, 3);
-            Vector3 spawnOffset = new Vector3(offsetX, offsetY, 0f);
-
-            Instantiate(enemyPrefab, spawnPoint.position + spawnOffset, spawnPoint.rotation);
+            Vector3 offset = new Vector3(Random.Range(-offsetRange, offsetRange), Random.Range(-offsetRange, offsetRange), 0f);
+            int spawnPoint = Random.Range(0, spawnPoints.Count);
+            Instantiate(fireEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
             EnemiesAlive++;
         }
+        for (int iceCount = 0; iceCount < iceEnemies[wave]; iceCount++)
+        {
+            Vector3 offset = new Vector3(Random.Range(-offsetRange, offsetRange), Random.Range(-offsetRange, offsetRange), 0f);
+            int spawnPoint = Random.Range(0, spawnPoints.Count);
+            Instantiate(iceEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            EnemiesAlive++;
+        }
+        for (int acidCount = 0; acidCount < acidEnemies[wave]; acidCount++)
+        {
+            Vector3 offset = new Vector3(Random.Range(-offsetRange, offsetRange), Random.Range(-offsetRange, offsetRange), 0f);
+            int spawnPoint = Random.Range(0, spawnPoints.Count);
+            Instantiate(acidEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            EnemiesAlive++;
+        }
+        for (int plasmaCount = 0; plasmaCount < plasmaEnemies[wave]; plasmaCount++)
+        {
+            Vector3 offset = new Vector3(Random.Range(-offsetRange, offsetRange), Random.Range(-offsetRange, offsetRange), 0f);
+            int spawnPoint = Random.Range(0, spawnPoints.Count);
+            Instantiate(plasmaEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            EnemiesAlive++;
+        }
+
+        wave++;
     }
 
     public void EnemyKilled()
@@ -61,10 +90,6 @@ public class EnemySpawner : MonoBehaviour
 
     public void CheckWaveDone()
     {
-        var enemies = FindObjectsOfType<EnemyMovement>().Length;
-        if (enemies <= 0)
-        {
-            SpawnWave();
-        }
+        if (EnemiesAlive == 0) SpawnWave();
     }
 }

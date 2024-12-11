@@ -13,6 +13,8 @@ namespace SAE.Health
     public class HealthManager : MonoBehaviour
     {
         // TODO: Add custom inspector for showing only player/enemy relevant variables depending on target tag
+        // TODO: Make an elemental oposition system
+        
         [SerializeField] private float health;
         [SerializeField] private float invulTime = 0.5f;
         [SerializeField] private bool isInvul = false;

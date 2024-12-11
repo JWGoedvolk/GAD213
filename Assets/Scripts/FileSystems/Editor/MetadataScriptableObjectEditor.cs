@@ -12,10 +12,14 @@ public class MetadataScriptableObjectEditor : Editor
     public long NowTick = 0;
     public override void OnInspectorGUI()
     {
+        MetaDataScriptableObject metadata = (MetaDataScriptableObject)target;
+        if (metadata.tick == 0)
+        {
+            metadata.SetupLocalMetaData();
+        }
         DrawDefaultInspector();
         EditorGUILayout.LongField("Current Tick", NowTick);
 
-        MetaDataScriptableObject metadata = (MetaDataScriptableObject)target;
 
         if(GUILayout.Button("Export to Json"))
         {
@@ -34,9 +38,10 @@ public class MetadataScriptableObjectEditor : Editor
         UpdateNowTick();
         MetadataFile metadataFile = new MetadataFile
         {
-            tick = NowTick,
+            ticks = NowTick,
             fileLink = metadata.associatedFileLink
         };
+        Debug.Log(metadataFile.ticks);
 
         string json = JsonUtility.ToJson(metadataFile, true);
         Directory.CreateDirectory(Application.streamingAssetsPath);

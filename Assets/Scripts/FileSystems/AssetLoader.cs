@@ -51,8 +51,8 @@ namespace SAE.FileSystem
         public static IEnumerator UpdateFileOnCload(string fileName, string link)
         {
             string id = GoogleDriveHelper.GetIDFromLink(link);
-            var file = new UnityGoogleDrive.Data.File() { Id = id, Content = FileContent };
-            var request = GoogleDriveFiles.Update(id, file);
+            var updateFile = new UnityGoogleDrive.Data.File() { Content = FileContent };
+            var request = GoogleDriveFiles.Update(id, updateFile);
             yield return request.Send();
             if (request != null)
             {

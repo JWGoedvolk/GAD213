@@ -9,12 +9,23 @@ using JW.GPG.CloudSave;
 public class FileSyncer : MonoBehaviour
 {
     [SerializeField] private List<MetaDataScriptableObject> filesToDownload = new List<MetaDataScriptableObject>();
+    [SerializeField] private MetaDataScriptableObject debugFile;
     [SerializeField] private string driveLink = string.Empty;
+    public static bool FileSyncComplete = false;
     
     // Start is called before the first frame update
     void Start()
     {
+        FileSyncComplete = false;
         StartCoroutine(CheckAndDownloadFiles());
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            StartCoroutine(DownloadFile(debugFile.DirectMetadataDownloadLink, debugFile.LocalMetadataFilePath));
+        }
     }
 
     private IEnumerator CheckAndDownloadFiles()
@@ -53,9 +64,10 @@ public class FileSyncer : MonoBehaviour
 
                     // Download new file from the cloud
                     yield return StartCoroutine(AssetLoader.DownloadFileFromCloud(metaData.associatedFileLink, metaData.LocalFilePath));
-
+                    yield return new WaitForEndOfFrame();
                     // Update the local meta data
                     yield return StartCoroutine(AssetLoader.DownloadFileFromCloud(metaData.metadataFileLink, metaData.LocalMetadataFilePath));
+                    metaData.SetupLocalMetaData();
                 }
             }
             else
@@ -64,6 +76,7 @@ public class FileSyncer : MonoBehaviour
             }
         }
         Debug.Log("[STARTUP][SYNC] Completed file syncing");
+        FileSyncComplete = true;
     }
 
     private IEnumerator DownloadFile(string fileLink, string savePath)
