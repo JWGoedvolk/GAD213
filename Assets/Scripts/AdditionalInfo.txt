@@ -1,6 +1,35 @@
+Minimum Requirements:
+[x] File Management
+	[x] Checks to see if a folder exists before accessing it.
+	[x] Checks to see if a file exists before accessing it.
+	[x] Allows flexibility of location i.e. not hard coded file paths.
+	[x] Clear version naming conventions.
+	[x] Checks to see if new versions of at least one file exist and has appropriate logic to process an update of said file.
+[] Procedural Content
+	[] Utilising Asset Bundles stored on a cloud provider that when downloaded allow new content to be added to the base game such as: new collectables, enemies, obstacles etc. 
+	[] Accessing and utilising texture data to place objects within an environment at least once.
+[] Optimisation Techniques
+	[] Optimise at least one system within your project and discuss this within your testing report with discussing the techniques used and the results.
+	[] Demonstrate the usage and understanding of the Unity Profiler.
+[] Data Serialisation and Persistence.
+	[] Saving at least three elements of game data within your project.
+	[] Capturing Game Analytics for at least 3 pieces of data.
+	[] Allowing for Game Unlockables for at least one in game element for player progress i.e. levels or items etc.
+	[] Loading and parsing save data for at least three elements of game data within your project i.e player position, items etc.
+	[] Storing and accessing your save data from a cloud service provider.
+	[] Utilising Text Files, JSON, XML or Binary Serialisation for offline backup of data.
+
+
+// TODO: Upload and download asset bundles from cloud for enemy sprites
 // TODO: Finish user authentication
 // TODO: Allow for cloud saving of score and highscore
 // TODO: Add in online highscore leaderboard
+// TODO: Disable enemy collisions when they die
+
+To ask:
+[] fix the assembly error that are popping up
+[] Make new scriptable objects
+[] How to do scipts on prefabs inside asset bundle. 
 
 Log sysntax:
 [INFO] => this is to say what is being done currently
@@ -13,9 +42,14 @@ Log sysntax:
 [ERROR] => Something went wrong and an error needs to be displayed to the player. See the attached message for the error.
 |STATUS| => Whether the process is starting, finishing, waiting.
 
+Start up sequence:
+1. Sync files
+2. Get wave info from file
+3. Get points from file
+
 MetaData file:
 {
-	long tick
+	long ticks
 	string rawLink
 }
 
