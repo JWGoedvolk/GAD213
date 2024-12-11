@@ -40,7 +40,7 @@ namespace SAE.Movement.Enemy
                 transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotateSpeed);
 
                 // Move forward towards the player
-                rb.velocity = transform.right * moveSpeed;
+                rb.linearVelocity = transform.right * moveSpeed;
             }
         }
 
@@ -49,13 +49,13 @@ namespace SAE.Movement.Enemy
             isPaused = pause;
             if (pause)
             {
-                recordedVelocity = rb.velocity;
-                rb.velocity = Vector2.zero;
+                recordedVelocity = rb.linearVelocity;
+                rb.linearVelocity = Vector2.zero;
                 anim.speed = 0f;
             }
             else
             {
-                rb.velocity = recordedVelocity;
+                rb.linearVelocity = recordedVelocity;
                 anim.speed = 1f;
             }
         }

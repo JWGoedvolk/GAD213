@@ -83,7 +83,7 @@ namespace SAE.Movement.Player
 
                 transform.Rotate(Vector3.forward, curTurnSpeed); // Alway be applying rotations so we can drift when not thrusting
 
-                body.velocity = Vector2.ClampMagnitude(body.velocity, maxSpeed.Value); // Limit our speed
+                body.linearVelocity = Vector2.ClampMagnitude(body.linearVelocity, maxSpeed.Value); // Limit our speed
             }
         }
 
@@ -98,11 +98,11 @@ namespace SAE.Movement.Player
             animator.speed = 0f;
 
             // Record the speeds and rotations
-            recordedVelocity = body.velocity;
+            recordedVelocity = body.linearVelocity;
             recordedAngularVelocity = body.angularVelocity;
 
             // Set the speeds and rotations to stop
-            body.velocity = Vector2.zero;
+            body.linearVelocity = Vector2.zero;
             body.angularVelocity = 0f;
             body.Sleep();
         }
@@ -118,7 +118,7 @@ namespace SAE.Movement.Player
             animator.speed = 1f;
 
             body.WakeUp();
-            body.velocity = recordedVelocity;
+            body.linearVelocity = recordedVelocity;
             body.angularVelocity = recordedAngularVelocity;
         }
     } 

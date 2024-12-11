@@ -7,7 +7,7 @@ namespace SAE.Upgrades
 {
     public class ExperienceHandler : MonoBehaviour
     {
-        [SerializeField] private float xpToNextLevel = 10f;
+        [SerializeField] public float xpToNextLevel = 10f;
         [SerializeField, Tooltip("This is by how much the xp needed to reach the next level will be calculated (xp needed = current needed * scale factor)")] private float scaleFactor = 1.5f;
         public float currentXP = 0f;
         [SerializeField] private GameObject normalUpgrades, weaponUpgrades;

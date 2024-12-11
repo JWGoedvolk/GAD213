@@ -1,3 +1,4 @@
+using JW.GPG.Procedural;
 using SAE.FileSystem;
 using SAE.Movement.Enemy;
 using System.Collections;
@@ -19,9 +20,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] public List<int> acidEnemies = new();
     [SerializeField] public List<int> plasmaEnemies = new();
     [Header("Other")]
+    [SerializeField] private GameObject spawnPointObject;
+    [SerializeField] private PointExtractor pointExtractor;
     [SerializeField] private List<Transform> spawnPoints = new();
     [SerializeField] private float offsetRange = 1f;
-    [SerializeField] private int wave = 0;
+    [SerializeField] public int wave = 0;
     public int EnemiesAlive = 0;
     // Start is called before the first frame update
     IEnumerator Start()
@@ -33,13 +36,21 @@ public class EnemySpawner : MonoBehaviour
         }
         Debug.Log("Wave info extracted, starting enemy spawning");
 
+        Debug.Log("[STARTUP] Waiting fo points to load in from the texture");
+        while (!PointExtractor.PointsLoadedFromFile) { yield return null; }
+        LoadSpawnPoints();
         SpawnWave();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LoadSpawnPoints()
     {
-
+        spawnPoints.Clear();
+        foreach (var point in pointExtractor.EnemyPoints)
+        {
+            GameObject spawnObject = Instantiate(spawnPointObject);
+            spawnObject.transform.position = new Vector3(point.x, point.y, 0f);
+            spawnPoints.Add(spawnObject.transform);
+        }
     }
 
     public void SpawnWave()

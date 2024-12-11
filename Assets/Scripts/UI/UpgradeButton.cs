@@ -70,11 +70,11 @@ namespace SAE.Upgrades
                     upgradeHandler.ShowUpgrades();
                     break;
                 case 3:  
-                    RB.drag -= 0.1f;
+                    RB.linearDamping -= 0.1f;
                     upgradeHandler.ShowUpgrades();
                     break;
                 case 4:  
-                    RB.drag += 0.1f;
+                    RB.linearDamping += 0.1f;
                     upgradeHandler.ShowUpgrades();
                     break;
                 case 5:  

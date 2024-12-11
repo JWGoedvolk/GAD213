@@ -27,15 +27,15 @@ Minimum Requirements:
 // TODO: Disable enemy collisions when they die
 
 To ask:
-[] fix the assembly error that are popping up
-[] Make new scriptable objects
-[] How to do scipts on prefabs inside asset bundle. 
+[x] Make new scriptable objects
+	Use JSON files to save the user profiles locally
 
 Log sysntax:
 [INFO] => this is to say what is being done currently
 [DEBUG] => This is data printed for debuging purposes. These should be minimised to removed as much as possible
 [STARTUP] => This is part of the start up sequence. See Start Up Sequence for more information
 [FILE] => This is to do with the file system, whether it be creating, reading, writing, downloading, uploading
+[SYNC] => This is for denoting that the file information in question are to do with its syncing process
 [DB] => This indicates the report has something to do with Firestore
 [USER] => This is for things to do with the users and their profiles on Firestore or locally stored
 [UPLOAD/DOWNLOAD] => Show the direction of data travel to Cloud services. UPLOAD = data being sent to Cloud service, DOWNLOAD = data coming in from Cloud service

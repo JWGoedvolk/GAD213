@@ -23,6 +23,16 @@ namespace SAE.FileSystem
             FileContent = File.ReadAllBytes(path);
         }
 
+        public static Texture2D LoadTextureFromFile(string path)
+        {
+            FileContent = File.ReadAllBytes(path); // Get texture content
+
+            Texture2D texture = new Texture2D(2, 2); // Create a temporary texture to write our data into
+            texture.LoadImage(FileContent);
+            texture.Apply();
+            return texture;
+        }
+
         public static IEnumerator DownloadFileFromCloud(string link, string savePath = "")
         {
             Debug.Log($"[INFO][CLOUD][DOWN] Download file from {link}");

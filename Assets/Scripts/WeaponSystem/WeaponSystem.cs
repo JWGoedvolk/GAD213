@@ -82,7 +82,7 @@ namespace SAE.Weapons
             bullet.transform.localScale = Vector3.one * bulletSizeModifier;
             // Shoot the bullet forward
             speed = (weaponStats.Velocity * bulletStat.VelocityModifier) * bulletSpeedModifier;
-            bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * (player.velocity.magnitude + speed), ForceMode2D.Impulse);
+            bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * (player.linearVelocity.magnitude + speed), ForceMode2D.Impulse);
 
             // Sets bullet damage
             bullet.GetComponent<Damager>().Damage = bulletStat.Damage * weaponStats.DamageModifier;

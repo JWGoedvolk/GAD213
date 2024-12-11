@@ -48,7 +48,7 @@ namespace SAE.Weapons
 
         void FixedUpdate()
         {
-            if (!isPaused)
+            if (!GameManager.IsPaused)
             {
                 curTime += Time.deltaTime;
                 if (curTime > lifeTime) // Check if the bullet died
@@ -80,9 +80,9 @@ namespace SAE.Weapons
         /// </summary>
         public void PauseBullet()
         {
-            recordedVelocity = rb.velocity;
-            rb.velocity = Vector2.zero;
-            isPaused = true;
+            recordedVelocity = rb.linearVelocity;
+            rb.linearVelocity = Vector2.zero;
+            animator.speed = 0f;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace SAE.Weapons
         public void UnpauseBullet()
         {
             rb.AddForce(transform.up * recordedVelocity.magnitude, ForceMode2D.Impulse);
-            isPaused = false;
+            animator.speed = 1f;
         }
     } 
 }
