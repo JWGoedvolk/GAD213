@@ -29,15 +29,11 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
-        Debug.Log("Enemy spawner waiting for wave info to extract");
-        while (!WaveExtractor.WaveInfoExtracted)
+        while (!GameManager.SetupComplete)
         {
             yield return null;
         }
-        Debug.Log("Wave info extracted, starting enemy spawning");
 
-        Debug.Log("[STARTUP] Waiting fo points to load in from the texture");
-        while (!PointExtractor.PointsLoadedFromFile) { yield return null; }
         LoadSpawnPoints();
         SpawnWave();
     }

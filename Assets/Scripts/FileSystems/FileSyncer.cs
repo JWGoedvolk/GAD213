@@ -20,22 +20,14 @@ public class FileSyncer : MonoBehaviour
         StartCoroutine(CheckAndDownloadFiles());
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            StartCoroutine(DownloadFile(debugFile.DirectMetadataDownloadLink, debugFile.LocalMetadataFilePath));
-        }
-    }
-
     private IEnumerator CheckAndDownloadFiles()
     {
-        Debug.Log("[STARTUP][SYNC] Starting file syncing");
+        ScreenManager.Instance.SetLoadingText("[STARTUP][SYNC] Starting file syncing");
         foreach (MetaDataScriptableObject metaData in filesToDownload)
         {
             // Grab the local meta data
             metaData.SetupLocalMetaData();
-            Debug.Log($"[SYNC] Syncing {metaData.filename}");
+            ScreenManager.Instance.SetLoadingText($"[SYNC] Syncing {metaData.filename}");
 
             // Grab the online meta data
             yield return StartCoroutine(DownloadFile(metaData.DirectMetadataDownloadLink, metaData.LocalMetadataFilePath));
@@ -72,18 +64,18 @@ public class FileSyncer : MonoBehaviour
             }
             else
             {
-                Debug.Log($"{metaData.filename} is up to date");
+                ScreenManager.Instance.SetLoadingText($"{metaData.filename} is up to date");
             }
         }
-        Debug.Log("[STARTUP][SYNC] Completed file syncing");
-        FileSyncComplete = true;
+        GameManager.FileSyncCompleted = true;
+        ScreenManager.Instance.SetLoadingText("[STARTUP][SYNC] Completed file syncing");
     }
 
     private IEnumerator DownloadFile(string fileLink, string savePath)
     {
         if (string.IsNullOrEmpty(fileLink)) 
         {
-            Debug.LogError("Invalid file link provided");
+            ScreenManager.Instance.SetLoadingText("Invalid file link provided");
             yield break;
         }
 
@@ -92,13 +84,13 @@ public class FileSyncer : MonoBehaviour
 
         if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError($"Falied to download from: {request.error}");
+            ScreenManager.Instance.SetLoadingText($"Falied to download from: {request.error}");
         }
         else
         {
             Directory.CreateDirectory(Path.GetDirectoryName(savePath));
             File.WriteAllBytes(savePath, request.downloadHandler.data);
-            Debug.Log($"File downloaded to: {savePath}");
+            ScreenManager.Instance.SetLoadingText($"File downloaded to: {savePath}");
         }
     }
 }

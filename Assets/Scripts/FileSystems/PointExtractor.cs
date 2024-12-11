@@ -27,14 +27,19 @@ namespace JW.GPG.Procedural
         {
             PointsLoadedFromFile = false;
             Debug.Log("[INFO][STARTUP][SYNC] Point Extractor waiting for files to sync");
-            while (!FileSyncer.FileSyncComplete)
+            while (!GameManager.WaveInfoExtracted)
             {
                 yield return null;
             }
-            Debug.Log($"[INFO][STARTUP][SYNC] Point Extractor using {textureFile.filename} from sync file");
+            ScreenManager.Instance.SetLoadingText($"[INFO][STARTUP][SYNC] Point Extractor using {textureFile.filename} from sync file");
 
             textureMap = AssetLoader.LoadTextureFromFile(textureFile.LocalFilePath);
             ExtractPointsFromTexture();
+
+
+            PointsLoadedFromFile = true;
+            GameManager.SetupComplete = true;
+            ScreenManager.Instance.SetLoadingText("[STARTUP] Finished loading in points from " + textureFile.filename);
         }
 
         private void ExtractPointsFromTexture()
@@ -64,10 +69,6 @@ namespace JW.GPG.Procedural
                     }
                 }
             }
-
-            PointsLoadedFromFile = true;
-            GameManager.SetupComplete = true;
-            Debug.Log("[STARTUP] Finished loading in points from " + textureFile.filename);
         }
     } 
 }

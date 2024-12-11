@@ -25,11 +25,12 @@ namespace SAE.FileSystem
         {
             WaveInfoExtracted = false;
             Debug.Log("Wave extractor waiting for file sync to finish");
-            while(!FileSyncer.FileSyncComplete)
+            while(!GameManager.FileSyncCompleted)
             {
+                Debug.Log("Wave extractor waiting for file sync");
                 yield return null;
             }
-            Debug.Log("File sync complete. Start wave infor extraction");
+            ScreenManager.Instance.SetLoadingText("[STARTUP][FILE][ENEMY] File sync complete. Start wave infor extraction");
 
             ReadFileContent();
             string[] waves = FileContent.Split(";");
@@ -41,8 +42,8 @@ namespace SAE.FileSystem
                     AddNewWave(wave.Trim());
                 }
             }
-            Debug.Log("Wave info extracted");
-            WaveInfoExtracted = true;
+            ScreenManager.Instance.SetLoadingText("[STARTUP][FILE][ENEMY] Wave info extracted");
+            GameManager.WaveInfoExtracted = true;
             yield return null;
         }
 

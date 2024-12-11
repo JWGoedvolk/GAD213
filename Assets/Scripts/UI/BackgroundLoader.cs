@@ -4,7 +4,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using SAE.FileSystem;
-using SAE.Scene.Transition;
 
 namespace SAE.FileSystem
 {
