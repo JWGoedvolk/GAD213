@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - XPOrb
   - PlayerTrack
+  - Hazard
   layers:
   - Default
   - TransparentFX

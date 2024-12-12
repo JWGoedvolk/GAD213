@@ -11,7 +11,7 @@ namespace JW.GPG.Procedural
     {
         [SerializeField] private MetaDataScriptableObject textureFile;
         [SerializeField] private Texture2D textureMap;
-        [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private GameObject player;
         public bool WaveExtracted = false;
 
         [Header("Points")]
@@ -78,16 +78,15 @@ namespace JW.GPG.Procedural
                 }
             }
 
-            GameObject player;
             if (PlayerPoints.Count > 0)
             {
                 int playerPointIndex = Random.Range(0, PlayerPoints.Count);
                 Transform playerPoint = PlayerPoints[playerPointIndex];
-                player = Instantiate(playerPrefab, playerPoint.position, Quaternion.identity);
+                player.transform.position = playerPoint.position;
             }
             else
             {
-                player = Instantiate(playerPrefab);
+                player.transform.position = PlayerPoints[0].position;
             }
 
             EnemySpawner enemySpawner = GetComponent<EnemySpawner>();
@@ -96,7 +95,7 @@ namespace JW.GPG.Procedural
             HazardSpawner hazardSpawner = GetComponent<HazardSpawner>();
             if (hazardSpawner != null) hazardSpawner.hazardPoints = HazardPoints;
             {
-                hazardSpawner.Player = playerPrefab;
+                hazardSpawner.Player = player;
             }
         }
     } 

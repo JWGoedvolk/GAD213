@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 4488168639823498719}
   - component: {fileID: 3982097860966924674}
   - component: {fileID: 2246120358856027194}
+  - component: {fileID: -5552068937996486201}
+  - component: {fileID: -5911255201543447045}
   m_Layer: 0
   m_Name: Comet
-  m_TagString: Untagged
+  m_TagString: Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +110,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -136,6 +138,38 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-5552068937996486201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6189749336949791912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1601b184eeefe4593de961ae596eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 1000
+  knockbackStrength: 2
+  direction: {x: 0, y: 0}
+  TagWhitelist:
+  - Player
+  - Enemy
+  destroyOnDamaged: 0
+--- !u!114 &-5911255201543447045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6189749336949791912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c5742c9d9701743896be0d3c74a059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element: 4
 --- !u!1 &6736516080961498672
 GameObject:
   m_ObjectHideFlags: 0

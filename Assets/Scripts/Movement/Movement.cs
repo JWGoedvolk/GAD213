@@ -88,7 +88,7 @@ namespace SAE.Movement.Player
 
                 transform.Rotate(Vector3.forward, curTurnSpeed); // Alway be applying rotations so we can drift when not thrusting
 
-                body.linearVelocity = Vector2.ClampMagnitude(body.linearVelocity, maxSpeed.Value); // Limit our speed
+                //body.linearVelocity = Vector2.ClampMagnitude(body.linearVelocity, maxSpeed.Value); // Limit our speed
             }
         }
 

@@ -26,6 +26,7 @@ public class BlackHole : MonoBehaviour
 
     public void StartHazard()
     {
+
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = (Target.position - transform.position).normalized * speed;
 
@@ -33,6 +34,7 @@ public class BlackHole : MonoBehaviour
         {
             playerRB = Player.GetComponent<Rigidbody2D>();
         }
+        Player = GameObject.FindGameObjectWithTag("PlayerTrack");
 
         rb.AddTorque(turnSpeed);
 
@@ -44,16 +46,11 @@ public class BlackHole : MonoBehaviour
     {
         float distanceToPlayer = Vector2.Distance(transform.position, Player.transform.position);
         directionToPlayer = transform.position - Player.transform.position;
+        pullForce = directionToPlayer.normalized / Mathf.Sqrt(distanceToPlayer) * intensity;
         if (distanceToPlayer <= range)
         {
-            pullForce = directionToPlayer.normalized / distanceToPlayer * intensity;
             playerRB.AddForce(pullForce, ForceMode2D.Force);
         }
-        
-        //if (PlayerInDamageRane)
-        //{
-        //    playerHealth.Health -= damageRate;
-        //}
     }
 
     IEnumerator DamagePlayer()
@@ -70,6 +67,7 @@ public class BlackHole : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (collision.CompareTag("Player"))
         {
             playerHealth = collision.GetComponent<HealthManager>();
