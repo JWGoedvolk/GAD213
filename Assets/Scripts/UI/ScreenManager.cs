@@ -14,6 +14,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] string deathText = "Score: {0}\nWave: {1}";
 
     [SerializeField] TMP_Text loadingText;
+    [SerializeField] TMP_Text dotsText;
     [SerializeField] float loadTextWaitTime = 0.5f;
     [SerializeField] int numDots = 0;
     [SerializeField] string dots = "";
@@ -45,9 +46,6 @@ public class ScreenManager : MonoBehaviour
     {
         loadString = text;
         loadingText.text = loadString;
-        StopAllCoroutines();
-        //StopCoroutine(LoadingTextAnimator());
-        StartCoroutine(LoadingTextAnimator());
     }
 
     public IEnumerator LoadingTextAnimator()
@@ -55,18 +53,12 @@ public class ScreenManager : MonoBehaviour
         //SetLoadingText(loadingText.text);
         while (LoadingScreenPanel.activeSelf)
         {
-            //Debug.Log(loadingText.text.Length);
-            //Debug.Log(dots.Length);
-
-            loadingText.text = loadingText.text + dots;
+            dotsText.text = dots;
             dots += ".";
 
             if (dots.Length > 3) 
             {
-                loadingText.text = loadingText.text.Trim().Substring(0, loadingText.text.Length - dots.Length - 2);
-                //Debug.Log($"Reset length: {loadingText.text.Length}");
-
-                dots = string.Empty;
+                dots = "";
             }
 
             yield return new WaitForSecondsRealtime(loadTextWaitTime);

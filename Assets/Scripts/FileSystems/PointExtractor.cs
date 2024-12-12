@@ -11,22 +11,23 @@ namespace JW.GPG.Procedural
     {
         [SerializeField] private MetaDataScriptableObject textureFile;
         [SerializeField] private Texture2D textureMap;
-        public static bool PointsLoadedFromFile = false;
+        [SerializeField] private GameObject playerPrefab;
+        public bool WaveExtracted = false;
 
         [Header("Points")]
+        [SerializeField] GameObject emptyObject;
         [SerializeField] Vector2 scale = Vector2.one;
-        public List<Vector2> EnemyPoints  = new();
+        public List<Transform> EnemyPoints  = new();
         [SerializeField] private Color enemyColor = Color.red;
-        public List<Vector2> PlayerPoints = new();
+        public List<Transform> PlayerPoints = new();
         [SerializeField] private Color playerColor = Color.blue;
-        public List<Vector2> HazardPoints = new();
+        public List<Transform> HazardPoints = new();
         [SerializeField] private Color hazardColor = Color.magenta;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         IEnumerator Start()
         {
-            PointsLoadedFromFile = false;
-            Debug.Log("[INFO][STARTUP][SYNC] Point Extractor waiting for files to sync");
+            //Debug.Log("[INFO][STARTUP][SYNC] Point Extractor waiting for files to sync");
             while (!GameManager.WaveInfoExtracted)
             {
                 yield return null;
@@ -36,8 +37,6 @@ namespace JW.GPG.Procedural
             textureMap = AssetLoader.LoadTextureFromFile(textureFile.LocalFilePath);
             ExtractPointsFromTexture();
 
-
-            PointsLoadedFromFile = true;
             GameManager.SetupComplete = true;
             ScreenManager.Instance.SetLoadingText("[STARTUP] Finished loading in points from " + textureFile.filename);
         }
@@ -57,17 +56,42 @@ namespace JW.GPG.Procedural
 
                     if (pixel == enemyColor)
                     {
-                        EnemyPoints.Add(point);
+                        GameObject spawn = Instantiate(emptyObject, transform);
+                        spawn.transform.position = point;
+                        spawn.name = $"EnemyPoint({x},{y})";
+                        EnemyPoints.Add(spawn.transform);
                     }
                     else if (pixel == playerColor)
                     {
-                        PlayerPoints.Add(point);
+                        GameObject spawn = Instantiate(emptyObject, transform);
+                        spawn.transform.position = point;
+                        spawn.name = $"PlayerPoint({x},{y})";
+                        PlayerPoints.Add(spawn.transform);
                     }
                     else if (pixel == hazardColor)
                     {
-                        HazardPoints.Add(point);
+                        GameObject spawn = Instantiate(emptyObject, transform);
+                        spawn.transform.position = point;
+                        spawn.name = $"HazardPoint({x},{y})";
+                        HazardPoints.Add(spawn.transform);
                     }
                 }
+            }
+            EnemySpawner enemySpawner = GetComponent<EnemySpawner>();
+            if (enemySpawner != null) enemySpawner.spawnPoints = EnemyPoints;
+
+            HazardSpawner hazardSpawner = GetComponent<HazardSpawner>();
+            if (hazardSpawner != null) hazardSpawner.hazardPoints = HazardPoints;
+
+            if (PlayerPoints.Count > 0)
+            {
+                int playerPointIndex = Random.Range(0, PlayerPoints.Count);
+                Transform playerPoint = PlayerPoints[playerPointIndex];
+                Instantiate(playerPrefab, playerPoint.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(playerPrefab);
             }
         }
     } 

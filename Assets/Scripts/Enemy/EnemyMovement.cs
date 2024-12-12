@@ -25,7 +25,7 @@ namespace SAE.Movement.Enemy
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            player = FindObjectOfType<WeaponSystem>().firePoint.gameObject;
+            player = GameObject.FindWithTag("PlayerTrack");
             anim = GetComponentInChildren<Animator>();
         }
 

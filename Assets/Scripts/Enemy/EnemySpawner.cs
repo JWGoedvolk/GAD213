@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("Other")]
     [SerializeField] private GameObject spawnPointObject;
     [SerializeField] private PointExtractor pointExtractor;
-    [SerializeField] private List<Transform> spawnPoints = new();
+    [SerializeField] public  List<Transform> spawnPoints = new();
     [SerializeField] private float offsetRange = 1f;
     [SerializeField] public int wave = 0;
     public int EnemiesAlive = 0;
@@ -34,19 +34,7 @@ public class EnemySpawner : MonoBehaviour
             yield return null;
         }
 
-        LoadSpawnPoints();
         SpawnWave();
-    }
-
-    private void LoadSpawnPoints()
-    {
-        spawnPoints.Clear();
-        foreach (var point in pointExtractor.EnemyPoints)
-        {
-            GameObject spawnObject = Instantiate(spawnPointObject);
-            spawnObject.transform.position = new Vector3(point.x, point.y, 0f);
-            spawnPoints.Add(spawnObject.transform);
-        }
     }
 
     public void SpawnWave()

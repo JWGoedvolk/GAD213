@@ -24,10 +24,10 @@ namespace SAE.FileSystem
         IEnumerator Start()
         {
             WaveInfoExtracted = false;
-            Debug.Log("Wave extractor waiting for file sync to finish");
+            //Debug.Log("Wave extractor waiting for file sync to finish");
             while(!GameManager.FileSyncCompleted)
             {
-                Debug.Log("Wave extractor waiting for file sync");
+                //Debug.Log("Wave extractor waiting for file sync");
                 yield return null;
             }
             ScreenManager.Instance.SetLoadingText("[STARTUP][FILE][ENEMY] File sync complete. Start wave infor extraction");
