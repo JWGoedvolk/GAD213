@@ -51,7 +51,7 @@ namespace JW.GPG.Procedural
                     Vector2 point = Vector2.one;
                     point.x = x;
                     point.y = y;
-                    point -= new Vector2(textureMap.width/2, textureMap.height/2);
+                    point -= new Vector2(textureMap.width / 2, textureMap.height / 2);
                     point *= scale;
 
                     if (pixel == enemyColor)
@@ -77,21 +77,26 @@ namespace JW.GPG.Procedural
                     }
                 }
             }
+
+            GameObject player;
+            if (PlayerPoints.Count > 0)
+            {
+                int playerPointIndex = Random.Range(0, PlayerPoints.Count);
+                Transform playerPoint = PlayerPoints[playerPointIndex];
+                player = Instantiate(playerPrefab, playerPoint.position, Quaternion.identity);
+            }
+            else
+            {
+                player = Instantiate(playerPrefab);
+            }
+
             EnemySpawner enemySpawner = GetComponent<EnemySpawner>();
             if (enemySpawner != null) enemySpawner.spawnPoints = EnemyPoints;
 
             HazardSpawner hazardSpawner = GetComponent<HazardSpawner>();
             if (hazardSpawner != null) hazardSpawner.hazardPoints = HazardPoints;
-
-            if (PlayerPoints.Count > 0)
             {
-                int playerPointIndex = Random.Range(0, PlayerPoints.Count);
-                Transform playerPoint = PlayerPoints[playerPointIndex];
-                Instantiate(playerPrefab, playerPoint.position, Quaternion.identity);
-            }
-            else
-            {
-                Instantiate(playerPrefab);
+                hazardSpawner.Player = playerPrefab;
             }
         }
     } 

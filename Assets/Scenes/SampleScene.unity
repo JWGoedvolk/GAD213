@@ -3467,7 +3467,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 4863611570658366626, guid: d15f00b5363edc54082484d8e2e356c3, type: 3}
   WaveExtracted: 0
   emptyObject: {fileID: 7850032172758299321, guid: c492989b5f8e7bb4db3fcd4af78b2f83, type: 3}
-  scale: {x: 2, y: 2}
+  scale: {x: 4, y: 3}
   EnemyPoints: []
   enemyColor: {r: 1, g: 0, b: 0, a: 1}
   PlayerPoints: []
@@ -3486,8 +3486,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2a87378b2b73f4eacf0c4461a749d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
   hazardPrefabs:
   - {fileID: 6189749336949791912, guid: 52160316317ebcf49a6ce5f3313c9640, type: 3}
+  - {fileID: 2904821836751377795, guid: 3863be1ac973aeb498fb720ad121c297, type: 3}
   hazardPoints: []
 --- !u!1 &1658726369
 GameObject:

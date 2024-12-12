@@ -32,7 +32,17 @@ namespace SAE.Movement.Player
         [Header("Pausing")]
         [SerializeField] private Vector2 recordedVelocity;
         [SerializeField] private float recordedAngularVelocity;
-        [SerializeField] private bool isPaused = false;
+        [SerializeField] private bool isDebugging = false;
+        public BlackHole blackHole;
+
+        private void Start()
+        {
+            if (isDebugging)
+            {
+                blackHole.StartHazard();
+                GameManager.IsPaused = false;
+            }
+        }
 
         // Update is called once per frame
         void Update()
@@ -88,8 +98,6 @@ namespace SAE.Movement.Player
         public void PauseMovement()
         {
             Debug.Log("Pausing player movement");
-
-            isPaused = true;
             animator.speed = 0f;
 
             // Record the speeds and rotations
@@ -108,8 +116,6 @@ namespace SAE.Movement.Player
         public void UnpauseMovement()
         {
             Debug.Log("Unpausing player movement");
-            
-            isPaused = false;
             animator.speed = 1f;
 
             body.WakeUp();

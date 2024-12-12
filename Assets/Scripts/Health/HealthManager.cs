@@ -53,7 +53,10 @@ namespace SAE.Health
                     {
                         Debug.Log("Damaging player");
                         // Invul
-                        StartCoroutine(InvulTimer(invulTime));
+                        if (!isInvul)
+                        {
+                            StartCoroutine(InvulTimer(invulTime));
+                        }
                     }
                 }
                 else if (value > 0f) 

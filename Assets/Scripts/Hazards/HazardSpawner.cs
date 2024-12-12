@@ -4,13 +4,9 @@ using UnityEngine;
 public class HazardSpawner : MonoBehaviour
 {
     [Header("Hazards")]
+    public GameObject Player;
     [SerializeField] private List<GameObject> hazardPrefabs = new();
     [SerializeField] public  List<Transform> hazardPoints = new();
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -19,13 +15,29 @@ public class HazardSpawner : MonoBehaviour
         {
             SpawnHazard();
         }
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SpawnHazard(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2)) 
+        { 
+            SpawnHazard(1);
+        }
     }
 
-    public void SpawnHazard()
+    public void SpawnHazard(int index = 0)
     {
-        int hazardIndex = Random.Range(0, hazardPrefabs.Count);
+        int hazardIndex = 0;
+        if (index == 0)
+        {
+            hazardIndex = Random.Range(0, hazardPrefabs.Count);
+        }
+        else
+        {
+            hazardIndex = index;
+        }
+        
         GameObject hazard = hazardPrefabs[hazardIndex];
-
         int startIndex = Random.Range(0, hazardPoints.Count);
         int endIndex = 0;
 
@@ -44,6 +56,16 @@ public class HazardSpawner : MonoBehaviour
         {
             comet.TargetPoint = end;
             StartCoroutine(comet.CometStart());
+        }
+        else // Check the next hazard, blackhole
+        {
+            BlackHole blackHole = spawn.GetComponent<BlackHole>();
+            if (blackHole != null)
+            {
+                blackHole.Player = Player;
+                blackHole.Target = end;
+                blackHole.StartHazard();
+            }
         }
     }
 }
