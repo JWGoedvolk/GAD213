@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Sabot
   m_EditorClassIdentifier: 
   Name: Sabot Bullet
-  VelocityModifier: 2
+  VelocityModifier: 5
   Damage: 3
   LifeTime: 10

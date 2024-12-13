@@ -9,6 +9,7 @@ using SAE.Variavles;
 using SAE.Weapons.Weapons;
 using SAE.Weapons.Bullets;
 using SAE.Movement.Player;
+using SAE.Health;
 
 namespace SAE.Upgrades
 {
@@ -27,6 +28,7 @@ namespace SAE.Upgrades
         public WeaponScriptables Weapon;
         public BulletScriptable Bullet;
         public Movement.Player.Movement movement;
+        public HealthManager playerHealth;
 
         [Header("Buttons")]
         [SerializeField] private UpgradeHandler upgradeHandler;
@@ -133,6 +135,10 @@ namespace SAE.Upgrades
                 case 18: 
                     weaponSystem.bulletStat = Bullet;
                     weaponUpgrade.SetPanel(false);
+                    break;
+                case 19:
+                    playerHealth.Health = 5;
+                    upgradeHandler.ShowUpgrades();
                     break;
                 default: 
                     break;

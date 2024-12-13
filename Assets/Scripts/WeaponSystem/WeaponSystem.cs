@@ -19,6 +19,7 @@ namespace SAE.Weapons
         [SerializeField] public float bulletSpeedModifier;
         [SerializeField] public float bulletSizeModifier;
         [SerializeField] public float BulletDamageMod = 1f;
+        [SerializeField] public ElementalManager.ElementType bulletElement;
 
         [Header("Weapons")]
         [SerializeField] private bool isPaused = false;
@@ -85,6 +86,7 @@ namespace SAE.Weapons
             bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * (player.linearVelocity.magnitude + speed), ForceMode2D.Impulse);
 
             // Sets bullet damage
+            bullet.GetComponent<ElementalManager>().element = bulletElement;
             bullet.GetComponent<Damager>().Damage = bulletStat.Damage * weaponStats.DamageModifier;
 
             // Stops us from firing before the cooldown is over

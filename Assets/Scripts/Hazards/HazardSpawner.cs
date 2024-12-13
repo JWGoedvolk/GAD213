@@ -8,20 +8,21 @@ public class HazardSpawner : MonoBehaviour
     [SerializeField] private List<GameObject> hazardPrefabs = new();
     [SerializeField] public  List<Transform> hazardPoints = new();
 
+    [Header("Spawning")]
+    [SerializeField] private float spawnInterval = 300f;
+    [SerializeField] private float curTime = 0f;
+
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.V))
+        if (GameManager.SetupComplete && !GameManager.IsPaused)
         {
-            SpawnHazard();
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SpawnHazard(0);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2)) 
-        { 
-            SpawnHazard(1);
+            curTime += Time.deltaTime;
+            if (curTime > spawnInterval)
+            {
+                curTime = 0f;
+                SpawnHazard();
+            }
         }
     }
 

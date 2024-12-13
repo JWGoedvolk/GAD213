@@ -1,5 +1,8 @@
+using SAE.Health;
+using SAE.Weapons;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ElementalManager : MonoBehaviour
@@ -13,6 +16,9 @@ public class ElementalManager : MonoBehaviour
         None // This is neutral to everything if it gets in
     }
     public ElementType element;
+    public TMP_Dropdown changeSelector;
+    public ElementalManager playerArmorElement;
+    public WeaponSystem weaponSystem;
 
     /// <summary>
     /// This is called from the damager and so this instance's element is taken as the defense element
@@ -50,5 +56,43 @@ public class ElementalManager : MonoBehaviour
             case ElementType.Plasma: return ElementType.Fire;
         }
         return ElementType.None;
+    }
+
+    public void ChangeElement(int changeTo)
+    {
+        ElementType changeToElement = ElementType.None;
+
+        switch (changeTo)
+        {
+            case 0: changeToElement = ElementType.None;   break;
+            case 1: changeToElement = ElementType.Fire;   break;
+            case 2: changeToElement = ElementType.Ice;    break;
+            case 3: changeToElement = ElementType.Acid;   break;
+            case 4: changeToElement = ElementType.Plasma; break;
+            default:
+                break;
+        }
+
+        if (changeSelector.value == 0)
+        {
+            weaponSystem.bulletElement = changeToElement;
+        }
+        else if (changeSelector.value == 1)
+        {
+            playerArmorElement.element = changeToElement;
+        }
+    }
+
+    public static string ReadableElement(ElementType type)
+    {
+        switch (type)
+        {
+            case ElementType.None  : return "Neutral";
+            case ElementType.Fire  : return "Fire"   ;
+            case ElementType.Ice   : return "Ice"    ;
+            case ElementType.Acid  : return "Acid"   ;
+            case ElementType.Plasma: return "Plasma" ;
+            default: return string.Empty;
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace SAE.FileSystem
                     Debug.Log($"[RESULT][DOWNLOAD][{id}] Error: {request.IsError}");
                 }
                 FileContent = request.ResponseData.Content;
-                Debug.Log($"[RESULT][DOWNLOAD][{id}] Create time ticks: {request.ResponseData.CreatedTime.Value.Ticks}");
+                //Debug.Log($"[RESULT][DOWNLOAD][{id}] Create time ticks: {request.ResponseData.CreatedTime.Value.Ticks}");
 
                 // Write the file if a save path is provided
                 if (!string.IsNullOrEmpty(savePath))

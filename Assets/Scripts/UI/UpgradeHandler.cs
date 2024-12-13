@@ -43,9 +43,9 @@ namespace SAE.Upgrades
             {
                 do
                 {
-                    IDChosen = Random.Range(1, UpgradeNames.Count - 2);
+                    IDChosen = Random.Range(1, UpgradeNames.Count);
                     //Debug.Log($"{i}: {IDChosen}");
-                } while (UpgradeIDsChosen.Contains(IDChosen));
+                } while (UpgradeIDsChosen.Contains(IDChosen) || IDChosen == 17 || IDChosen == 18);
                 UpgradeIDsChosen.Add(IDChosen);
                 Buttons[i].UpgradeID = IDChosen;
                 Buttons[i].gameObject.SetActive(true);

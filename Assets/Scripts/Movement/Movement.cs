@@ -107,7 +107,7 @@ namespace SAE.Movement.Player
             // Set the speeds and rotations to stop
             body.linearVelocity = Vector2.zero;
             body.angularVelocity = 0f;
-            body.Sleep();
+            body.simulated = false;
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace SAE.Movement.Player
             Debug.Log("Unpausing player movement");
             animator.speed = 1f;
 
-            body.WakeUp();
+            body.simulated = true;
             body.linearVelocity = recordedVelocity;
             body.angularVelocity = recordedAngularVelocity;
         }
