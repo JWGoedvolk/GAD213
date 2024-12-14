@@ -5425,7 +5425,8 @@ PrefabInstance:
       propertyPath: 'WeaponButtons.Array.data[2]'
       value: 
       objectReference: {fileID: 1960796091}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6354873319548766462, guid: d15f00b5363edc54082484d8e2e356c3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

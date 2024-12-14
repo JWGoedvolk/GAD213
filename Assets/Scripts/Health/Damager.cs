@@ -26,9 +26,9 @@ namespace SAE.Health
                 {
                     health.Health = -Damage;
 
-                    if (collision.gameObject.CompareTag("Player"))
+                    if (collision.gameObject.CompareTag("Player") || (gameObject.tag == "PlayerBullet" && collision.tag == "Enemy"))
                     {
-                        Debug.Log("Doing knockback");
+                        Debug.Log("Doing knockback on trigger");
                         Rigidbody2D playerRB = collision.gameObject.GetComponent<Rigidbody2D>();
                         playerRB.AddForce(transform.forward, ForceMode2D.Impulse);
                     }
@@ -63,9 +63,9 @@ namespace SAE.Health
                     float elementalModifier = defendingManager.CalculateDamageModifier(attackingManager.element);
                     health.Health = -Damage * elementalModifier;
 
-                    if (collision.gameObject.CompareTag("Player"))
+                    if (collision.gameObject.CompareTag("Player") || (gameObject.tag == "PlayerBullet" && collision.gameObject.tag == "Enemy"))
                     {
-                        Debug.Log("Doing knockback");
+                        Debug.Log("Doing knockback on collosion");
                         Rigidbody2D playerRB = collision.gameObject.GetComponent<Rigidbody2D>();
                         direction = (playerRB.transform.position - transform.position).normalized;
                         playerRB.AddForce(direction * knockbackStrength, ForceMode2D.Impulse);

@@ -49,28 +49,36 @@ public class EnemySpawner : MonoBehaviour
         {
             Vector3 offset = new Vector3(Random.Range(-offsetRange, offsetRange), Random.Range(-offsetRange, offsetRange), 0f);
             int spawnPoint = Random.Range(0, spawnPoints.Count);
-            Instantiate(fireEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            var enemy = Instantiate(fireEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            var animator = enemy.GetComponentInChildren<Animator>();
+            animator.SetInteger("Type", 0);
             EnemiesAlive++;
         }
         for (int iceCount = 0; iceCount < iceEnemies[wave]; iceCount++)
         {
             Vector3 offset = new Vector3(Random.Range(-offsetRange, offsetRange), Random.Range(-offsetRange, offsetRange), 0f);
             int spawnPoint = Random.Range(0, spawnPoints.Count);
-            Instantiate(iceEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            var enemy = Instantiate(iceEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            var animator = enemy.GetComponentInChildren<Animator>();
+            animator.SetInteger("Type", 1);
             EnemiesAlive++;
         }
         for (int acidCount = 0; acidCount < acidEnemies[wave]; acidCount++)
         {
             Vector3 offset = new Vector3(Random.Range(-offsetRange, offsetRange), Random.Range(-offsetRange, offsetRange), 0f);
             int spawnPoint = Random.Range(0, spawnPoints.Count);
-            Instantiate(acidEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            var enemy = Instantiate(acidEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            var animator = enemy.GetComponentInChildren<Animator>();
+            animator.SetInteger("Type", 2);
             EnemiesAlive++;
         }
         for (int plasmaCount = 0; plasmaCount < plasmaEnemies[wave]; plasmaCount++)
         {
             Vector3 offset = new Vector3(Random.Range(-offsetRange, offsetRange), Random.Range(-offsetRange, offsetRange), 0f);
             int spawnPoint = Random.Range(0, spawnPoints.Count);
-            Instantiate(plasmaEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            var enemy = Instantiate(plasmaEnemy, spawnPoints[spawnPoint].position + offset, Quaternion.identity);
+            var animator = enemy.GetComponentInChildren<Animator>();
+            animator.SetInteger("Type", 3);
             EnemiesAlive++;
         }
 
