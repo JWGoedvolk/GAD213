@@ -16,7 +16,6 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] TMP_Text loadingText;
     [SerializeField] TMP_Text dotsText;
     [SerializeField] float loadTextWaitTime = 0.5f;
-    [SerializeField] int numDots = 0;
     [SerializeField] string dots = "";
     [SerializeField] string loadString = "";
     public float ArtificialWaitTime = 1f;

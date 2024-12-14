@@ -18,11 +18,9 @@ namespace SAE.Weapons
         [Header("Physics")]
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Vector2 recordedVelocity;
-        [SerializeField] private bool isPaused = false;
 
         [Header("Animations")]
         [SerializeField] private Animator animator;
-        [SerializeField] private float animationTime = 0f;
         [SerializeField] private float explodeLength = 0.25f;
 
         void Awake()

@@ -22,7 +22,6 @@ namespace SAE.Movement.Player
         [Header("Player Turning Speed")]
         [SerializeField] private FloatVarScriptable turnSpeed; // This is what we are trying to reach
         [SerializeField] private float curTurnSpeed = 0f;
-        [SerializeField] private float maxTurnSpeed = 1f;
         [SerializeField] private float turnSpeedStepFactor = 1f;
         [SerializeField] private float turnDragFactor = 1f;
 
@@ -86,7 +85,7 @@ namespace SAE.Movement.Player
                     body.AddForce(transform.up * curSpeed);
                 }
 
-                transform.Rotate(Vector3.forward, curTurnSpeed); // Alway be applying rotations so we can drift when not thrusting
+                transform.Rotate(transform.forward, curTurnSpeed);
 
                 //body.linearVelocity = Vector2.ClampMagnitude(body.linearVelocity, maxSpeed.Value); // Limit our speed
             }

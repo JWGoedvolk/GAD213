@@ -92,3 +92,15 @@ How to register a new user:
 	Password => Will be used to verify its the correct user
 	Data => Stores the JSON string with things like the score, weapon stats, etc.
 2. Save the user to the Firestore database | Firestore
+
+Upgrading sequence:
+1. Upon collecting enough XP:
+	set GameManager.IsPaused = true;
+	raise PauseGame event
+2. Randomly select to show normal or weapon upgrade screen
+		Set upgrades on the shown screen
+3. Upon selecting an upgrade:
+	Apply the upgrade
+	disable shown screen
+	Set GameManager.IsPaused = false
+	Raise UnpauseGame event
