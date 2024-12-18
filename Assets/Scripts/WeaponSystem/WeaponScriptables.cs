@@ -19,5 +19,9 @@ namespace SAE.Weapons.Weapons
         public float Velocity = 1f;
         [Tooltip("Whether the weapon will fire as long as the key is held down")]
         public bool doesAutofire = false;
+        [Tooltip("The size modifier for the bullets fired from the weapon. Size order added: Weapon -> Bullet -> Upgrade")]
+        public float SizeModifier = 1f;
+        [Tooltip("Whether the weapon is unlocked yet. Can only be used if it is unlocked")]
+        public bool IsUnlocked = false;
     } 
 }

@@ -12,6 +12,8 @@ namespace SAE.Health
     public class Damager : MonoBehaviour
     {
         public float Damage = 1f;
+        [SerializeField] private float damageCooldown = 0.1f;
+        [SerializeField] private bool hasDealtDamage = false;
         public float knockbackStrength = 2f;
         [SerializeField] private Vector2 direction;
         public List<string> TagWhitelist = new List<string>();
@@ -24,15 +26,19 @@ namespace SAE.Health
                 var health = collision.gameObject.GetComponent<HealthManager>();
                 if (health != null )
                 {
-                    health.Health = -Damage;
-
-                    if (collision.gameObject.CompareTag("Player") || (gameObject.tag == "PlayerBullet" && collision.tag == "Enemy"))
+                    if (!hasDealtDamage)
                     {
-                        Debug.Log("Doing knockback on trigger");
-                        Rigidbody2D playerRB = collision.gameObject.GetComponent<Rigidbody2D>();
-                        playerRB.AddForce(transform.forward, ForceMode2D.Impulse);
+                        health.Health = -Damage;
+                        hasDealtDamage= true;
+                        StartCoroutine(DamageCooldown());
+                        if (collision.gameObject.tag == "Enemy")
+                        {
+                            Rigidbody2D enemyRB = collision.gameObject.GetComponent<Rigidbody2D>();
+                            direction = (enemyRB.transform.position - transform.position).normalized;
+                            enemyRB.AddForce(direction * knockbackStrength, ForceMode2D.Impulse);
+                        }
                     }
-
+                    
                     BulletMove bullet = GetComponent<BulletMove>();
                     if (bullet != null)
                     {
@@ -48,7 +54,6 @@ namespace SAE.Health
                 }
             }
         }
-        
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -58,12 +63,18 @@ namespace SAE.Health
                 var health = collision.gameObject.GetComponent<HealthManager>();
                 if (health != null)
                 {
+                    
                     ElementalManager attackingManager = GetComponent<ElementalManager>();
                     ElementalManager defendingManager = collision.gameObject.GetComponent<ElementalManager>();
                     float elementalModifier = defendingManager.CalculateDamageModifier(attackingManager.element);
-                    health.Health = -Damage * elementalModifier;
+                    if (!hasDealtDamage)
+                    {
+                        health.Health = -Damage * elementalModifier;
+                        hasDealtDamage = true;
+                        StartCoroutine(DamageCooldown());
+                    }
 
-                    if (collision.gameObject.CompareTag("Player") || (gameObject.tag == "PlayerBullet" && collision.gameObject.tag == "Enemy"))
+                    if (collision.gameObject.CompareTag("Player"))
                     {
                         Debug.Log("Doing knockback on collosion");
                         Rigidbody2D playerRB = collision.gameObject.GetComponent<Rigidbody2D>();
@@ -86,6 +97,11 @@ namespace SAE.Health
                     }
                 }
             }
+        }
+
+        private IEnumerator DamageCooldown()
+        {
+            yield return new WaitForSeconds(damageCooldown);
         }
 
         private void OnDrawGizmosSelected()

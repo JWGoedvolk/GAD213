@@ -1,3 +1,5 @@
+using JW.GPG.Achievements;
+using JW.GPG.Unlockables;
 using SAE.EventSystem;
 using SAE.Health;
 using SAE.Variavles;
@@ -21,11 +23,15 @@ namespace SAE.Upgrades
         public GameObject NormalUpgradePanel;
         public GameObject WeaponUpgradePanel;
         public int UpgradeType = 0;
+        [SerializeField] private const int weaponChangeID = 17;
+        [SerializeField] private const int bulletChangeID = 18;
         public List<UpgradeButton> NormalButtons;
         public List<UpgradeButton> WeaponButtons; 
         public List<UpgradeButton> BulletButtons;
-        [SerializeField] private List<WeaponScriptables> weapons = new();
-        [SerializeField] private List<BulletScriptable> bullets = new();
+        [SerializeField] private List<WeaponScriptables> unlockedWeapons = new();
+        [SerializeField] private List<BulletScriptable> unlockedBullets = new();
+        [SerializeField] private List<WeaponScriptables> allWeapons = new();
+        [SerializeField] private List<BulletScriptable> allBullets = new();
         public List<string> UpgradeNames;
         public List<int> UpgradeIDsChosen;
         public List<int> WeaponIDsChosen = new();
@@ -41,6 +47,44 @@ namespace SAE.Upgrades
         [SerializeField] private WeaponSystem weaponSystem;
         [SerializeField] private HealthManager playerHealth;
 
+        [Header("Achievements")]
+        public int TimesSkipped = 0;
+        [SerializeField] private int lastChosenID = 0;
+        [SerializeField] private int timesChosenConsecutivly = 0;
+        public int PlayerLevel = 0;
+
+        IEnumerator Start()
+        {
+            unlockedWeapons.Clear();
+            unlockedBullets.Clear();
+
+            while (!GameManager.FileSyncCompleted && !GameManager.UserAuthenticated)
+            {
+                yield return null;
+            }
+
+            UnlockablesManager.LoadUnlockables();
+
+            // Load all weapons and check for unlocks
+            foreach (var weapon in allWeapons)
+            {
+                if (weapon.Name == "Bolter")
+                {
+                    weapon.IsUnlocked = UnlockablesManager.IsItemUnlocked(UnlockablesManager.UnlockableItem.Bolter);
+                }
+                
+                if (weapon.IsUnlocked) unlockedWeapons.Add(weapon);
+            }
+
+            // Load all bullets and check for unlocks
+            foreach (var bullet in allBullets)
+            {
+                if (bullet.Name == "Torpedo")
+                {
+                    bullet.IsUnlocked = UnlockablesManager.IsItemUnlocked(UnlockablesManager.UnlockableItem.Torpedo);
+                }
+            }
+        }
 
         /// <summary>
         /// Changes the player's stats based on the set UpgradeID int
@@ -48,74 +92,70 @@ namespace SAE.Upgrades
         /// </summary>
         public void Upgrade(int UpgradeID, int extraID = 0)
         {
+            if (lastChosenID == UpgradeID)
+            {
+                timesChosenConsecutivly++;
+                if (timesChosenConsecutivly >= 5)
+                {
+                    AchievementsManager.UnlockAchievement(AchievementsManager.AchievementType.OrSoHelpMe);
+                }
+            }
+            else
+            {
+                timesChosenConsecutivly = 0;
+            }
+            lastChosenID = UpgradeID;
+
+            // TODO: Make -1 skip and -2 reroll for ananlytic purposes
             switch (UpgradeID)
             {
-                case 0:
+                case 0: 
                     Debug.Log("Case 0");
                     break;
                 case 1:
                     playerRB.mass += 0.1f;
+                    if (playerRB.mass >= 5f)
+                    {
+                        AchievementsManager.UnlockAchievement(AchievementsManager.AchievementType.OhLawdHeComin);
+                        UnlockablesManager.UnlockItem(UnlockablesManager.UnlockableItem.Dreadnaught);
+                    }
                     break;
-                case 2:
-                    playerRB.mass -= 0.1f;
+                case 2: playerRB.mass -= 0.1f; break;
+                case 3: playerRB.linearDamping -= 0.1f; break;
+                case 4: playerRB.linearDamping += 0.1f; break;
+                case 5: moveSpeed.Value += 0.5f; break;
+                case 6: moveSpeed.Value -= 0.5f; break;
+                case 7: maxSpeed.Value += 0.5f; break;
+                case 8: maxSpeed.Value -= 0.5f; break;
+                case 9: turnSpeed.Value += 0.1f; break;
+                case 10:turnSpeed.Value -= 0.1f; break;
+                case 11:weaponSystem.fireRateModifier -= 0.1f; break;
+                case 12:weaponSystem.fireRateModifier += 0.1f; break;
+                case 13:weaponSystem.bulletSpeedModifier += 0.1f; break;
+                case 14:weaponSystem.bulletSpeedModifier -= 0.1f; break;
+                case 15:weaponSystem.bulletSizeModifier += 0.1f; break;
+                case 16:weaponSystem.bulletSizeModifier -= 0.1f; break;
+                case weaponChangeID:
+                    weaponSystem.weaponStats = unlockedWeapons[extraID];
+                    weaponSystem.isFireable = true; 
                     break;
-                case 3:
-                    playerRB.linearDamping -= 0.1f;
+                case bulletChangeID:
+                    weaponSystem.bulletStat = unlockedBullets[extraID]; 
                     break;
-                case 4:
-                    playerRB.linearDamping += 0.1f;
+                case 19: playerHealth.Health = 5; break;
+                case 20: weaponSystem.BulletDamageMod += 0.5f; break;
+                case 21:
+                    weaponSystem.BulletDamageMod -= 0.5f;
+                    if (weaponSystem.BulletDamageMod < 0f)
+                    {
+                        AchievementsManager.UnlockAchievement(AchievementsManager.AchievementType.Medic);
+                    }
                     break;
-                case 5:
-                    moveSpeed.Value += 0.5f;
-                    break;
-                case 6:
-                    moveSpeed.Value -= 0.5f;
-                    break;
-                case 7:
-                    maxSpeed.Value += 0.5f;
-                    break;
-                case 8:
-                    maxSpeed.Value -= 0.5f;
-                    break;
-                case 9:
-                    turnSpeed.Value += 0.1f;
-                    break;
-                case 10:
-                    turnSpeed.Value -= 0.1f;
-                    break;
-                case 11:
-                    weaponSystem.fireRateModifier -= 0.1f;
-                    break;
-                case 12:
-                    weaponSystem.fireRateModifier += 0.1f;
-                    break;
-                case 13:
-                    weaponSystem.bulletSpeedModifier += 0.1f;
-                    break;
-                case 14:
-                    weaponSystem.bulletSpeedModifier -= 0.1f;
-                    break;
-                case 15:
-                    weaponSystem.bulletSizeModifier += 0.1f;
-                    break;
-                case 16:
-                    weaponSystem.bulletSizeModifier -= 0.1f;
-                    break;
-                case 17:
-                    weaponSystem.weaponStats = weapons[extraID];
-                    weaponSystem.isFireable = true;
-                    break;
-                case 18:
-                    weaponSystem.bulletStat = bullets[extraID];
-                    break;
-                case 19:
-                    playerHealth.Health = 5;
-                    break;
-                default:
-                    break;
+                default: break;
             }
             ShowUpgrades();
             UnPause.Raise();
+            PlayerLevel++;
         }
 
         /// <summary>
@@ -144,34 +184,35 @@ namespace SAE.Upgrades
             else if (UpgradeType == 1) // Weapon and Bullet upgrades
             {
                 // Weapons
-                for (int i = 0; i < WeaponButtons.Count && i < weapons.Count; i++)
+                for (int i = 0; i < WeaponButtons.Count && i < unlockedWeapons.Count; i++)
                 {
                     do
                     {
-                        IDChosen = Random.Range(0, weapons.Count);
+                        IDChosen = Random.Range(0, unlockedWeapons.Count);
                     }
                     while (WeaponIDsChosen.Contains(IDChosen));
                     WeaponIDsChosen.Add(IDChosen);
                     WeaponButtons[i].UpgradeID = 17;
                     WeaponButtons[i].WeaponID = IDChosen;
-                    WeaponButtons[i].text.text = weapons[IDChosen].Name;
+                    WeaponButtons[i].text.text = unlockedWeapons[IDChosen].Name;
                 }
 
                 // Bullets
-                for (int j = 0; j < BulletButtons.Count && j < bullets.Count; j++)
+                for (int j = 0; j < BulletButtons.Count && j < unlockedBullets.Count; j++)
                 {
                     do
                     {
-                        IDChosen = Random.Range(0, bullets.Count);
+                        IDChosen = Random.Range(0, unlockedBullets.Count);
                     }
                     while (BulletIDsChosen.Contains(IDChosen));
                     BulletIDsChosen.Add(IDChosen);
                     BulletButtons[j].UpgradeID = 17;
                     BulletButtons[j].BulletID = IDChosen;
-                    BulletButtons[j].text.text = bullets[IDChosen].Name;
+                    BulletButtons[j].text.text = unlockedBullets[IDChosen].Name;
                 }
             }
         }
+
         /// <summary>
         /// This controlls whether the upgrade panel is hidden or visible
         /// </summary>
@@ -193,8 +234,15 @@ namespace SAE.Upgrades
 
         public void Skip()
         {
+            TimesSkipped++;
             NormalUpgradePanel.SetActive(false);
             WeaponUpgradePanel.SetActive(false);
+
+            // Skip 10 times without leveling up
+            if (TimesSkipped >= 10 && PlayerLevel == 1)
+            {
+                AchievementsManager.UnlockAchievement(AchievementsManager.AchievementType.StrongEnoughAsIs);
+            }
         }
 
         public void Reroll()

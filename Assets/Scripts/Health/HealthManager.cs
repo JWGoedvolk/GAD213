@@ -1,3 +1,4 @@
+using JW.GPG.Analytics;
 using SAE.EventSystem;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +14,6 @@ namespace SAE.Health
     public class HealthManager : MonoBehaviour
     {
         // TODO: Add custom inspector for showing only player/enemy relevant variables depending on target tag
-        // TODO: Make an elemental oposition system
         
         [SerializeField] private float health;
         [SerializeField] private float invulTime = 0.5f;
@@ -30,7 +30,10 @@ namespace SAE.Health
             set
             {
                 //Debug.LogWarning(value);
-                health += value;
+                if (!isInvul || value > 0f)
+                {
+                    health += value;
+                }
 
                 if (value <= 0f)
                 {
@@ -79,6 +82,7 @@ namespace SAE.Health
                     }
                     else if (gameObject.CompareTag("Player"))
                     {
+                        AnalyticGameEvent.OnPlayrDeath(AnalyticManager.Instance); // Log analytic data
                         gameObject.SetActive(false);
                         Debug.Log("Player killed");
                     }

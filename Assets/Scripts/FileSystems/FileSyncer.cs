@@ -9,8 +9,6 @@ using JW.GPG.CloudSave;
 public class FileSyncer : MonoBehaviour
 {
     [SerializeField] private List<MetaDataScriptableObject> filesToDownload = new List<MetaDataScriptableObject>();
-    [SerializeField] private MetaDataScriptableObject debugFile;
-    [SerializeField] private string driveLink = string.Empty;
     public static bool FileSyncComplete = false;
     
     // Start is called before the first frame update

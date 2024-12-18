@@ -31,18 +31,18 @@ namespace SAE.FileSystem
                 yield return null;
             }
             ScreenManager.Instance.SetLoadingText("[STARTUP][FILE][ENEMY] File sync complete. Start wave infor extraction");
-
+            yield return new WaitForSeconds(1);
             ReadFileContent();
             string[] waves = FileContent.Split(";");
             foreach (var wave in waves)
             {
-                Debug.Log($"Wave: {wave}");
                 if (!string.IsNullOrEmpty(wave))
                 {
                     AddNewWave(wave.Trim());
                 }
             }
             ScreenManager.Instance.SetLoadingText("[STARTUP][FILE][ENEMY] Wave info extracted");
+            yield return new WaitForSeconds(1);
             GameManager.WaveInfoExtracted = true;
             yield return null;
         }
@@ -56,7 +56,6 @@ namespace SAE.FileSystem
         public void AddNewWave(string waveInfo)
         {
             var enemyTypes = waveInfo.Split(',');
-            Debug.Log("Wave to add: " + waveInfo);
             int fireCount   = int.Parse(enemyTypes[0]);
             int iceCount    = int.Parse(enemyTypes[1]);
             int acidCount   = int.Parse(enemyTypes[2]);

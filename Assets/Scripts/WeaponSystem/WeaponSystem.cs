@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using SAE.Weapons.Weapons;
 using SAE.Weapons.Bullets;
+using JW.GPG.Unlockables;
+using JW.GPG.Achievements;
 
 namespace SAE.Weapons
 {
@@ -80,7 +82,15 @@ namespace SAE.Weapons
         {
             // Spawn the bullet
             var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            bullet.transform.localScale = Vector3.one * bulletSizeModifier;
+            
+            // Scale with all the size modifieres
+            bullet.transform.localScale = (((Vector3.one * weaponStats.SizeModifier) * bulletStat.SizeModifier) * bulletSizeModifier);
+            if (bullet.transform.localScale.x >= 5f)
+            {
+                AchievementsManager.UnlockAchievement(AchievementsManager.AchievementType.BigChungusBuild);
+                UnlockablesManager.UnlockItem(UnlockablesManager.UnlockableItem.Torpedo);
+            }
+
             // Shoot the bullet forward
             speed = (weaponStats.Velocity * bulletStat.VelocityModifier) * bulletSpeedModifier;
             bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * (player.linearVelocity.magnitude + speed), ForceMode2D.Impulse);

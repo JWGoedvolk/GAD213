@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.30f1
+CRC: 929757802
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f01d15b37264f4a55538ff2e4b81edc8
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 8ffd48c6713cd04766010f6b176bbe16
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 0b5ca0de6a6586bc769cb2471531a55e
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Textures/Background/BGBase.png
+- Assets/Textures/Background/BackgroundEffect.mat
+- Assets/Textures/Background/BGStars.png
+Dependencies: []

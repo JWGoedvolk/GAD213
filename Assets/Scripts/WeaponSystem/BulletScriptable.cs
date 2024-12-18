@@ -18,5 +18,7 @@ namespace SAE.Weapons.Bullets
         public float Damage = 1f;
         [Tooltip("How long the bullet lasts for before dies")]
         public float LifeTime = 1f;
+        public float SizeModifier = 1f;
+        public bool IsUnlocked = false;
     } 
 }

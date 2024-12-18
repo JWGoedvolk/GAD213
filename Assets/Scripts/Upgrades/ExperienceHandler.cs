@@ -10,6 +10,7 @@ namespace SAE.Upgrades
     /// </summary>
     public class ExperienceHandler : MonoBehaviour
     {
+        public int PlayerLevel = 0;
         public float xpToNextLevel = 10f;
         [SerializeField, Tooltip("This is by how much the xp needed to reach the next level will be calculated (xp needed = current needed * scale factor)")] private float scaleFactor = 1.5f;
         public float currentXP = 0f;
@@ -31,10 +32,11 @@ namespace SAE.Upgrades
         public void CollectXP(float amount)
         {
             currentXP += amount;
-            if (currentXP >= xpToNextLevel) // TODO: Allow for multiple level ups to be taken
+            if (currentXP >= xpToNextLevel)
             {
                 currentXP -= xpToNextLevel; // This is so we can have xp flow over to the next level if we collect to much
                 xpToNextLevel *= scaleFactor;
+                PlayerLevel++;
                 pauseGame.Raise();
                 GameManager.IsPaused = true;
 

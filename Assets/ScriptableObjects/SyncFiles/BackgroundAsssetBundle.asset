@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a5a031a51dcf24f8a99fdeb35331a3, type: 3}
+  m_Name: BackgroundAsssetBundle
+  m_EditorClassIdentifier: 
+  filename: background
+  extension: .json
+  metadataFileLink: https://drive.google.com/file/d/1wY8w-OKx2l-Bbs1qE5zzdvbHOmuK_lMy/view?usp=drive_link
+  associatedFileLink: https://drive.google.com/file/d/1utSHO01Z8RCCjs_A4d3IrYPL5oqMKJZ0/view?usp=drive_link
+  associatedFileExtension: .asset
+  tick: 638699637866640717
+  localIsNewer: 0

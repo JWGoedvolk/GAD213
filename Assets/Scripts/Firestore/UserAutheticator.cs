@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Firebase.Auth;
 
 namespace JW.GPG.Firestore
 {
@@ -10,131 +11,78 @@ namespace JW.GPG.Firestore
     /// </summary>
     public class UserAutheticator : MonoBehaviour
     {
-        [SerializeField] private Firestore dbHelper;
-        [SerializeField] private List<SaveDataScriptable> users = new List<SaveDataScriptable>();
-        [SerializeField] private bool updateUserListOnAwake = false;
+        FirebaseAuth auth = FirebaseAuth.DefaultInstance;
 
-        [Header("User")]
-        public bool UserVerified = false;
-        public TMP_InputField UsernameField;
-        public string Username;
-        public TMP_InputField EmailField;
-        public string Email;
-        public TMP_InputField PasswordField;
-        public string Password;
+        [Header("Inputs")]
+        [SerializeField] private TMP_InputField emailField;
+        [SerializeField] private TMP_InputField passwordField;
 
-        private void Awake()
+        [Header("Texts")]
+        [SerializeField] private string email;
+        [SerializeField] private string password;
+
+        public void GetInputs()
         {
-            if (updateUserListOnAwake)
-            {
-                users = dbHelper.GetUserData();
-            }
+            email = emailField.text;
+            password = passwordField.text;
         }
 
-        // Update is called once per frame
-        void Update()
+        public void AuthenticateUser()
         {
+            GetInputs();
 
-        }
-
-        public void GetUserEmail()
-        {
-            Email = EmailField.text.Trim();
-        }
-
-        public void GetPassword()
-        {
-            Password = PasswordField.text.Trim();
-        }
-
-        public void GetName() 
-        {
-            Username = UsernameField.text.Trim();
-        }
-
-        public void RegisterUser()
-        {
-            Debug.Log("[INFO][USER]|STARTER| Registering new user to Firestore and list of local users");
-
-            GetUserEmail();
-            GetPassword();
-            GetName();
-
-            dbHelper.Email = Email;
-            dbHelper.Password = Password;
-            dbHelper.Username = Username;
-
-            dbHelper.SaveToCloud();
-
-            users.Add(dbHelper.NewUser);
-            Debug.Log("[INFO][USER]|COMPLETED| Succesfully registered a new user");
-        }
-
-        public void StartVerification()
-        {
-            StartCoroutine(VerifyUser());
-        }
-
-        public IEnumerator VerifyUser()
-        {
-            Debug.Log("[INFO][USER]|STARTED| Starting user verification");
-            // Get User information
-            GetUserEmail();
-            GetPassword();
-            dbHelper.Email = Email;
-
-            // Chec againt list of local users first to save read calls to Firestore
-            Debug.Log("[INFO][USER] Attempting to verify user locally");
-            foreach (var item in users)
-            {
-                if (item.Email == Email) // Emails match, so check if passwords match
+            auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+                if (task.IsCanceled)
                 {
-                    if (item.Password == Password)
-                    {
-                        // User has entered the correct credentials so can do things
-                        Debug.Log($"[INFO][USER]|COMPLETED| User {item.Name} has been sucesfully verified");
-                        UserVerified = true;
-                        break;
-                    }
+                    Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+                    return;
                 }
-            }
-
-            if (UserVerified) // If the user has been verified from the list of stored users, then no need to get from the Firestore.
-            {
-                yield return null;
-            }
-
-            Debug.Log("[INFO][USER]|ONGOING| Attempting to verify user from Firestore database");
-            // Get the user data from Firestore
-            dbHelper.LoadFromCloud();
-            while(dbHelper.PlayerRetrieved)
-            {
-                Debug.Log("[INFO][USER]|WAITING| Waiting to retrieve users from Firestore");
-                yield return new WaitForEndOfFrame();
-            }
-
-            // Check if succesfull
-            if (dbHelper.RetrieveSuccesful)
-            {
-                Debug.Log("[INFO][USER]|ONGOING| User data retrieved from Firestore. Proceeding with verification");
-                if (Password == dbHelper.Password)
+                if (task.IsFaulted)
                 {
-                    Debug.Log("User verified");
-                    UserVerified = true;
-                }
-                else
-                {
-                    Debug.Log("User not verified");
-                    UserVerified = false;
+                    Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                    return;
                 }
 
-                yield return null;
-            }
-            else
-            {
-                Debug.LogError("Could not load user");
-                yield return null;
-            }
+                Firebase.Auth.AuthResult result = task.Result;
+                Debug.LogFormat("User signed in successfully: {0} ({1})",
+                    result.User.DisplayName, result.User.UserId);
+
+                // TODO: Close log in screen
+
+                GameManager.UserAuthenticated = true;
+            });
         }
-    } 
+
+        public void SignUpNewUser()
+        {
+            GetInputs();
+
+            auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                    return;
+                }
+
+                // Firebase user has been created.
+                Firebase.Auth.AuthResult result = task.Result;
+                Debug.LogFormat("Firebase user created successfully: {0} ({1})",
+                    result.User.DisplayName, result.User.UserId);
+
+                // TODO: Close log in screen
+
+                GameManager.UserAuthenticated = true;
+            });
+        }
+
+        public void SignOut()
+        {
+            auth.SignOut();
+        }
+    }
 }

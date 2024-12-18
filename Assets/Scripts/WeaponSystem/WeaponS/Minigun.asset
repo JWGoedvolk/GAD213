@@ -17,3 +17,4 @@ MonoBehaviour:
   DamageModifier: 0.1
   Velocity: 1.5
   doesAutofire: 1
+  IsUnlocked: 1

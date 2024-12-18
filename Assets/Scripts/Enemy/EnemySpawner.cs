@@ -1,4 +1,6 @@
+using JW.GPG.Achievements;
 using JW.GPG.Procedural;
+using JW.GPG.Unlockables;
 using SAE.FileSystem;
 using SAE.Movement.Enemy;
 using System.Collections;
@@ -19,13 +21,13 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] public List<int> iceEnemies = new();
     [SerializeField] public List<int> acidEnemies = new();
     [SerializeField] public List<int> plasmaEnemies = new();
+    public int EnemiesAlive = 0;
     [Header("Other")]
     [SerializeField] private GameObject spawnPointObject;
     [SerializeField] private PointExtractor pointExtractor;
     [SerializeField] public  List<Transform> spawnPoints = new();
     [SerializeField] private float offsetRange = 1f;
     [SerializeField] public int wave = 0;
-    public int EnemiesAlive = 0;
     // Start is called before the first frame update
     IEnumerator Start()
     {
@@ -39,13 +41,29 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnWave()
     {
-        Debug.LogWarningFormat("spawning enemy wave");
+        Debug.Log("spawning enemy wave");
+
+        // Check game mode to see if we continue
         if (wave >= fireEnemies.Count)
         {
-            wave--;
+            if (GameManager.gameMode == GameManager.GameMode.Endless || GameManager.gameMode == GameManager.GameMode.Hardcore)
+            {
+                wave--;
+            }
+            else
+            {
+                Debug.Log("Show end screen");
+                AchievementsManager.UnlockAchievement(AchievementsManager.AchievementType.BeatTheGame);
+                UnlockablesManager.UnlockItem(UnlockablesManager.UnlockableItem.Endless);
+            }
         }
-        
-        for(int fireCount = 0; fireCount < fireEnemies[wave]; fireCount++)
+
+        if (wave == 5)
+        {
+            UnlockablesManager.UnlockItem(UnlockablesManager.UnlockableItem.Bolter);
+        }
+
+        for (int fireCount = 0; fireCount < fireEnemies[wave]; fireCount++)
         {
             Vector3 offset = new Vector3(Random.Range(-offsetRange, offsetRange), Random.Range(-offsetRange, offsetRange), 0f);
             int spawnPoint = Random.Range(0, spawnPoints.Count);
@@ -93,6 +111,9 @@ public class EnemySpawner : MonoBehaviour
 
     public void CheckWaveDone()
     {
-        if (EnemiesAlive == 0) SpawnWave();
+        if (EnemiesAlive == 0)
+        {
+            SpawnWave();
+        }
     }
 }

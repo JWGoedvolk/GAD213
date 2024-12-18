@@ -1,3 +1,7 @@
+LINGO:
+NYI => Not Yet Implemented
+NYD => Not Yet Decided
+
 Minimum Requirements:
 [x] File Management
 	[x] Checks to see if a folder exists before accessing it.
@@ -6,29 +10,75 @@ Minimum Requirements:
 	[x] Clear version naming conventions.
 	[x] Checks to see if new versions of at least one file exist and has appropriate logic to process an update of said file.
 [] Procedural Content
-	[] Utilising Asset Bundles stored on a cloud provider that when downloaded allow new content to be added to the base game such as: new collectables, enemies, obstacles etc. 
-	[] Accessing and utilising texture data to place objects within an environment at least once.
+	[ ] Utilising Asset Bundles stored on a cloud provider that when downloaded allow new content to be added to the 
+		base game such as: new collectables, enemies, obstacles etc. 
+	[x] Accessing and utilising texture data to place objects within an environment at least once.
 [] Optimisation Techniques
 	[] Optimise at least one system within your project and discuss this within your testing report with discussing the techniques used and the results.
 	[] Demonstrate the usage and understanding of the Unity Profiler.
 [] Data Serialisation and Persistence.
 	[] Saving at least three elements of game data within your project.
 	[] Capturing Game Analytics for at least 3 pieces of data.
+		TimesSkipped => long | string
+		Score => int
+		Level => int = The number of times leveled up
 	[] Allowing for Game Unlockables for at least one in game element for player progress i.e. levels or items etc.
-	[] Loading and parsing save data for at least three elements of game data within your project i.e player position, items etc.
-	[] Storing and accessing your save data from a cloud service provider.
-	[] Utilising Text Files, JSON, XML or Binary Serialisation for offline backup of data.
+		Achievements:
+			Skip 5 level ups => Strong Enough As Is
+			Reach endless mode => Beat The Game
+			Take same level up 10 times => Or So Help Me!
+		Unlockables:
+			Invul Time Up => Reach Endless Mode
+			Hardcore Mode => Reach Endless Mode => Gives a 5x score multiplier, but sets HP to 1 allways 
+	[x] Loading and parsing save data for at least three elements of game data within your project i.e player position, items etc.
+	[x] Storing and accessing your save data from a cloud service provider.
+	[ ] Utilising Text Files, JSON, XML or Binary Serialisation for offline backup of data.
 
+=== TODO PRIORITY ===
+// [_] Main Menu
+	   |> Start Game
+	      |> Choose Ship Hull
+	   |> Weapon Gallery
+	      |> Weapons and how to unlock them
+		  |> BUllets and how to unlock them
+	   |> Settings
+	   |> Quit
+// [x] Unlockables
+// [_] Achievements
+// [_] Pop up windows
 
-// TODO: Upload and download asset bundles from cloud for enemy sprites
-// TODO: Finish user authentication
-// TODO: Allow for cloud saving of score and highscore
-// TODO: Add in online highscore leaderboard
-// TODO: Disable enemy collisions when they die
+=== TODO STRETCH ===
+// [_] Finish user authentication
+// [_] Allow for cloud saving of score and highscore
+// [_] Add in online highscore leaderboard
 
-To ask:
-[x] Make new scriptable objects
-	Use JSON files to save the user profiles locally
+Content:
+	Weapons:
+	- Basic => Unlocked from start
+	- Railgun => Unlocked from start
+	- Minigun => Unlocked from start
+	- Bolter => Get to Wave 5
+	Bullets:
+	- Basic => Unlocked from start
+	- Energy => Unlocked from start
+	- Sabot => Unlocked from start
+	- Torpedo => Get bullet size to 5
+	Ship Hulls:
+	- Basic => Unlocked from start
+	- Hull Breaker => Take 50 Damage in 1 game
+	  |> Deals contact damage and takes less contact damage. Deals drastically less weapon damage
+	- Dreadnaught => Get player mass to 5
+	  |> Has significantly more health but drastically less speed
+	Game Modes:
+	- Waves => Progress through the waves then exits once final wave completed. Score multiplier of 1x
+	- Endless => Go until you die sapwning final wave if reached. Score multiplier of 1.5x
+	- Hardcore => Endless with faster enemies that hit harder. Score multiplier of 4x |> Reach 5 minutes Endlesss
+	Achievements:
+	- Beat The Game => Reach the final wave and go Endless
+	- No End In Sight => Reach 5 minutes in Endless
+	- You Are Epxendable => Die within 1 minute in any mode
+	- Big Cungus => Get bullet scale to 5
+	- Oh Lawd He Comin' => Get player mass to 5
 
 Log sysntax:
 [INFO] => this is to say what is being done currently
@@ -43,24 +93,31 @@ Log sysntax:
 |STATUS| => Whether the process is starting, finishing, waiting.
 
 Start up sequence:
-1. Sync files
-2. Get wave info from file
-3. Get points from file
+|> Check internet connection
+>= Internet connection
+||>	  Sync files with Google Drive
+||>	  Async load unlockables
+||>	  Async load wave from text file
+||>	  Async load points from texture
+|||>  Get unlocked weapons, bullets
+||>	  Hide load screen and spawn first wave
+>= No connection
+||>   Async load unlockables from local file
+||>   Async load wave from text file from local file
+||>   Async load points from local file
+||>   Hide load screen and spawn first wave
 
 MetaData file:
 {
-	long ticks
-	string rawLink
+	long ticks => UTC time in ticks since the file was created
+	string rawLink => raw share link to the asociated actual file
 }
 
-Data to save to player save data:
-Score | int
-Weapon name | string
-Firerate modifier | float
-Damage modifier | float
-Bullet name | string
-Bullet speed modifier | float
-Bullet size modifier | float
+Local Save Data: Will be unique per player. Stored in Firestore, updated on death
+	Password | string => used for verifying if a document with the user's email exists
+	UnlockedItems | JSON dictionary string |> UnlockablesManager.unlockedItems
+	Achievements | JSON dictionary string |> AchievementsManager.achievementProgress
+	Highscore | int => Starts at 0 and gets updated if current run's score is higher
 
 How to update file on the cloud:
 1. turn the local file into byte[] | AssetLoader

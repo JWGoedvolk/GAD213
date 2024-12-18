@@ -31,16 +31,19 @@ public class ElementalManager : MonoBehaviour
         ElementType attack = damageType;
         if (attack == defense || defense == ElementType.None) // The same elements and none gains no bonuses
         {
+            Debug.Log($"Elemental damage modifier: {1f}");
             return 1f;
         }
 
         // If the defending element is the element the attacking element is strong against, give a 50% damage increase (x1.5)
         if (defense == ReturnStrength(attack))
         {
+            Debug.Log($"Elemental damage modifier: {1.5f}");
             return 1.5f;
         }
         else // If it isn't strong or nuetral against the defending then it must be weak to it
         {
+            Debug.Log($"Elemental damage modifier: {0.5f}");
             return 0.5f;
         }
     }

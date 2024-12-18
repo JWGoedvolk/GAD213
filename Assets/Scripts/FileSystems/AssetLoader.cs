@@ -105,7 +105,7 @@ namespace SAE.FileSystem
         /// </summary>
         /// <param name="path">The path to the file</param>
         /// <returns>Sprite if the file exists, null if it doesn't</returns>
-        public static Sprite LoadSprite(string path)
+        public static Sprite LoadSpriteFromFile(string path)
         {
             Debug.Log($"Loading sprite from {path}");
             if (File.Exists(path))
@@ -123,6 +123,12 @@ namespace SAE.FileSystem
                 Debug.LogError($"Sprite at path {path} not found");
                 return null;
             }
+        }
+
+        public static Sprite LoadSpriteFromTexture(Texture2D texture)
+        {
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+            return sprite;
         }
     } 
 }
