@@ -31,7 +31,7 @@ namespace SAE.FileSystem
         IEnumerator Start()
         {
             // Wait for the files to be synced for incase we send it a new one through the Google Drive
-            while(!GameManager.FileSyncCompleted && !GameManager.UserAuthenticated)
+            while(!GameManager.FileSyncCompleted)
             {
                 yield return null;
             }

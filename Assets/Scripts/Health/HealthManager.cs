@@ -17,7 +17,7 @@ namespace SAE.Health
         
         [SerializeField] private float health;
         [SerializeField] private float invulTime = 0.5f;
-        [SerializeField] private bool isInvul = false;
+        [SerializeField] public bool isInvul = false;
         [SerializeField] Animator animator;
         [SerializeField] float explodeLength;
         [SerializeField] float damageLength;
@@ -30,7 +30,14 @@ namespace SAE.Health
             set
             {
                 //Debug.LogWarning(value);
-                if (!isInvul || value > 0f)
+                if (gameObject.tag == "Player")
+                {
+                    if (!isInvul)
+                    {
+                        health += value;
+                    }
+                }
+                else
                 {
                     health += value;
                 }
@@ -52,9 +59,9 @@ namespace SAE.Health
                             StartCoroutine(Damaged(damageLength)); // Plays the animation for the length of the damage clip
                         }
                     }
-                    else if (gameObject.CompareTag("Player") && !isInvul)
+                    else if (gameObject.CompareTag("Player"))
                     {
-                        Debug.Log("Damaging player");
+                        Debug.LogWarning("Damaging player");
                         // Invul
                         if (!isInvul)
                         {

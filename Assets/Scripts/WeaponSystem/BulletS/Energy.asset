@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Energy Round
   VelocityModifier: 3
-  Damage: 2
+  Damage: 3
   LifeTime: 5
+  SizeModifier: 1
+  IsUnlocked: 1

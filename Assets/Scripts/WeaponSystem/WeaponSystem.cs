@@ -24,7 +24,6 @@ namespace SAE.Weapons
         [SerializeField] public ElementalManager.ElementType bulletElement;
 
         [Header("Weapons")]
-        [SerializeField] private bool isPaused = false;
         [SerializeField] public Transform firePoint;
         [SerializeField] public WeaponScriptables weaponStats;
         [SerializeField] private float fireTime = 0f;
@@ -45,7 +44,7 @@ namespace SAE.Weapons
         // Update is called once per frame
         void Update()
         {
-            if (!isPaused)
+            if (!GameManager.IsPaused)
             {
                 if (!isFireable)
                 {
@@ -101,15 +100,6 @@ namespace SAE.Weapons
 
             // Stops us from firing before the cooldown is over
             isFireable = false;
-        }
-
-        public void PauseSystem()
-        {
-            isPaused = true;
-        }
-        public void UnPauseSystem()
-        {
-            isPaused = false;
         }
     } 
 }

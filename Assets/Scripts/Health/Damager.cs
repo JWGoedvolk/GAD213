@@ -102,6 +102,7 @@ namespace SAE.Health
         private IEnumerator DamageCooldown()
         {
             yield return new WaitForSeconds(damageCooldown);
+            hasDealtDamage = false;
         }
 
         private void OnDrawGizmosSelected()

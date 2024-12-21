@@ -44,11 +44,10 @@ Minimum Requirements:
 	   |> Settings
 	   |> Quit
 // [x] Unlockables
-// [_] Achievements
+// [x] Achievements
 // [_] Pop up windows
 
 === TODO STRETCH ===
-// [_] Finish user authentication
 // [_] Allow for cloud saving of score and highscore
 // [_] Add in online highscore leaderboard
 
@@ -95,8 +94,8 @@ Log sysntax:
 Start up sequence:
 |> Check internet connection
 >= Internet connection
+||>   Log in to PlayFab and load the unlockables and achievements
 ||>	  Sync files with Google Drive
-||>	  Async load unlockables
 ||>	  Async load wave from text file
 ||>	  Async load points from texture
 |||>  Get unlocked weapons, bullets

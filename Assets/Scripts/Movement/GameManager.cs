@@ -1,3 +1,4 @@
+using JW.GPG.Achievements;
 using JW.GPG.Unlockables;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Game States")]
     public static bool IsPaused = true;
+    public static bool PlayfabIsDoneSaving = false;
     public static bool UserAuthenticated = false;
     public static bool FileSyncCompleted = false;
     public static bool WaveInfoExtracted = false;
@@ -39,10 +41,7 @@ public class GameManager : MonoBehaviour
         //     Async load local player profile
 
         // We have to wait for user authentication before we can continue
-        while (!UserAuthenticated)
-        {
-            yield return null;
-        }
+        IsPaused = true;
 
         // After user authentications we can sync files
         while (!FileSyncCompleted)
@@ -57,7 +56,7 @@ public class GameManager : MonoBehaviour
         }
 
         ScreenManager.Instance.HideLoadingScreen();
-        IsPaused = false;
+        //IsPaused = false;
     }
 
     public void PauseGame()
@@ -67,5 +66,39 @@ public class GameManager : MonoBehaviour
     public void UnPauseGame()
     {
         IsPaused = false;
+    }
+
+    public void SelectGameMode(int id)
+    {
+        if (id == 1)
+        {
+            gameMode = GameMode.Waves;
+            ScreenManager.Instance.HideMainMenu();
+            IsPaused = false;
+        }
+        else if (id == 2)
+        {
+            if (UnlockablesManager.IsItemUnlocked(UnlockablesManager.UnlockableItem.Endless))
+            {
+                gameMode = GameMode.Endless;
+                IsPaused = false;
+                ScreenManager.Instance.HideMainMenu();
+            }
+            else
+            {
+                ScreenManager.Instance.ShowPopUpWindow("Game Mode Error", $"This game mode has not been unlocked yet.\nYou need the {UnlockablesManager.itemName[UnlockablesManager.UnlockableItem.Endless]} item unlocked first");
+            }
+        }
+        else if (id == 3)
+        {
+            if (UnlockablesManager.IsItemUnlocked(UnlockablesManager.UnlockableItem.Hardcore))
+            {
+                gameMode = GameMode.Hardcore;
+            }
+            else
+            {
+                ScreenManager.Instance.ShowPopUpWindow("Game Mode Error", $"This game mode is not yet unlockable!\nCheck back in future for possible updates");
+            }
+        }
     }
 }

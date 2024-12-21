@@ -14,6 +14,11 @@ public class ApplicationCloser : MonoBehaviour
 
     public void Close()
     {
+        while (!GameManager.PlayfabIsDoneSaving)
+        {
+            continue;
+        }
+
         Application.Quit();
     }
 }

@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Basic Bullet
   VelocityModifier: 1
-  Damage: 1
+  Damage: 2
   LifeTime: 10
+  SizeModifier: 1
+  IsUnlocked: 1

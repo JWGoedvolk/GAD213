@@ -36,6 +36,11 @@ public class EnemySpawner : MonoBehaviour
             yield return null;
         }
 
+        while (GameManager.IsPaused)
+        {
+            yield return null;
+        }
+
         SpawnWave();
     }
 
@@ -113,6 +118,10 @@ public class EnemySpawner : MonoBehaviour
     {
         if (EnemiesAlive == 0)
         {
+            while (GameManager.IsPaused)
+            {
+                continue;
+            }
             SpawnWave();
         }
     }

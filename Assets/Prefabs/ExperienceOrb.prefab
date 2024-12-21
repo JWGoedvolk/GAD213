@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99bdc766e21a66f46a9367a85e068528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 5
+  lifeTime: 10
   amount: 3
   isPaused: 0
 --- !u!114 &1821742989708777751

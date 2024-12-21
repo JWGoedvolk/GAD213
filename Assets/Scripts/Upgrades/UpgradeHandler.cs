@@ -63,7 +63,7 @@ namespace SAE.Upgrades
                 yield return null;
             }
 
-            UnlockablesManager.LoadUnlockables();
+            //UnlockablesManager.LoadUnlockables();
 
             // Load all weapons and check for unlocks
             foreach (var weapon in allWeapons)
@@ -83,6 +83,8 @@ namespace SAE.Upgrades
                 {
                     bullet.IsUnlocked = UnlockablesManager.IsItemUnlocked(UnlockablesManager.UnlockableItem.Torpedo);
                 }
+
+                if (bullet.IsUnlocked) unlockedBullets.Add(bullet);
             }
         }
 
@@ -219,6 +221,8 @@ namespace SAE.Upgrades
         /// <param name="state">bool => the state to set it to</param>
         public void ShowUpgrades()
         {
+            
+
             SetUpgrades();
             if (UpgradeType == 0)
             {
@@ -235,14 +239,15 @@ namespace SAE.Upgrades
         public void Skip()
         {
             TimesSkipped++;
-            NormalUpgradePanel.SetActive(false);
-            WeaponUpgradePanel.SetActive(false);
 
             // Skip 10 times without leveling up
-            if (TimesSkipped >= 10 && PlayerLevel == 1)
+            if (TimesSkipped >= 3 && PlayerLevel == 0)
             {
                 AchievementsManager.UnlockAchievement(AchievementsManager.AchievementType.StrongEnoughAsIs);
             }
+            NormalUpgradePanel.SetActive(false);
+            WeaponUpgradePanel.SetActive(false);
+            UnPause.Raise();
         }
 
         public void Reroll()
